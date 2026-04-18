@@ -86,3 +86,40 @@ JaCoCo coverage on the LLM-generated classes:
 | Lines | 97.2% | 99.1% |
 | Methods | 100% | 100% |
 | Classes | 100% | 100% |
+
+## Step 5 — Test Improvement
+
+Each LLM was asked to improve its own base test method using the JNose smell report and the per-task JaCoCo branch-coverage gaps as inputs. Output: `ImprovedByClaudeTest.java` and `ImprovedByGptTest.java` per task, alongside the original `SolutionTest.java`.
+
+Post-improvement: **621 tests, 1 failure**. Branch coverage jumped to Claude **99.0%** (the 2 uncovered branches are unreachable code in Claude's Solutions — a `switch` `default:` guarded out by a prior range check, and an `else if` fall-through unreachable for in-spec inputs) / GPT **100%**.
+
+### LLM test-authoring errors (6, all fixed)
+
+The improved tests surfaced 6 assertions where the LLM wrote **incorrect expected values** — the Solution is correct, the test's expectation is wrong. We edited these in place (spec-allowed "minor modifications to base tests") and document them here because they are a real finding about LLMs as test authors.
+
+| Task | Improver | Method | Error |
+|---|---|---|---|
+| Java/9 | Claude | `plateauOfMaximumStaysAtMaximum` | Expected `[1,3,3,3,3,2,3,3]` for `rollingMax`, which is impossible — rolling max is monotonically non-decreasing. |
+| Java/120 | Claude | `handlesAllNegativeArray` | Expected top-2 of `[-5,-3,-1,-7,-2]` to be `[-3,-1]`; the actual top-2 largest are `[-2,-1]`. |
+| Java/160 | Claude | `floorDivisionFloorsTowardNegativeInfinity` | Expected `1 - 10/3 = -3`. Python floors (`-3`), Java truncates (`-2`). Renamed to `integerDivisionTruncatesTowardZero`. |
+| Java/160 | GPT | `handlesFloorDivisionAndZeroExponent` | Same Python-floor-vs-Java-truncation confusion. |
+| Java/64 | GPT | `countsStandardVowelsCaseInsensitively` | `"AEon"` has 3 vowels (A,E,o), expected 2. |
+| Java/64 | GPT | `countsYOnlyWhenItIsTheLastCharacter` | `"yellow"` was expected 0 but has 2 vowels (e,o); `"rhythm"` was expected 1 but has 0 vowels. LLM thought the function counts *only* y-at-end, ignoring standard a/e/i/o/u. |
+
+Cross-LLM breakdown: **Claude 3 errors, GPT 3 errors**. The Python-vs-Java floor confusion appears in both LLMs independently, suggesting it stems from multi-language training rather than a model-specific quirk.
+
+### Solution bugs uncovered by the improved tests (1, pending Step 7)
+
+| Task | LLM | Bug |
+|---|---|---|
+| Java/47 `median` | GPT | `(MAX_VALUE + MAX_VALUE) / 2` integer-overflows, returning `-1` instead of the correct `MAX_VALUE`. The dataset's base tests never exercised extreme inputs; the improved test `avoidsIntegerOverflowWhenAveragingMiddleElements` does. Queued for Step 7 (Refactoring). |
+
+This is the intended outcome of Step 5: LLM-improved tests, driven by smell/coverage feedback, find real bugs that the benchmark's minimal base suite missed.
+
+### Coverage after Step 5
+
+| Metric | Claude — before | Claude — after | GPT — before | GPT — after |
+|---|---:|---:|---:|---:|
+| Instructions | 97.7% | **99.9%** | 98.5% | **100%** |
+| Branches | 92.3% | **99.0%** | 92.4% | **100%** |
+| Lines | 97.2% | **99.7%** | 99.1% | **100%** |
