@@ -50,7 +50,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.4</version>
                 <configuration>
-                    <argLine>-Duser.language=en -Duser.region=US</argLine>
+                    <argLine>@{argLine} -Duser.language=en -Duser.region=US</argLine>
                 </configuration>
             </plugin>
         </plugins>
