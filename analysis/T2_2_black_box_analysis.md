@@ -38,10 +38,10 @@ Coverage legend:
 ### Boundary Condition Table
 
 | Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
+|----------|-------|-----------------|----|
 | Distance exactly equals threshold | `[1.0, 1.5], 0.5` | `false` | ✅ T2.1 |
 | Distance just below threshold | `[1.0, 1.49], 0.5` | `true` | ✅ Base |
-| Threshold = 0, identical values | `[2.0, 2.0], 0.0` | `false` (not strictly less) | ✅ T2.1 |
+| Threshold = 0, identical values | `[2.0, 2.0], 0.0` | `false` (not strictly less) | ❌ |
 | List size = 1 | `[5.0], 1.0` | `false` | ✅ T2.1 |
 
 ### Missing Test Cases
@@ -54,6 +54,13 @@ void nullListThrowsException() {
     assertThrows(NullPointerException.class,
         () -> s.hasCloseElements(null, 0.5));
 }
+
+// Boundary: Threshold = 0, identical values (Difference is exactly 0, which is not strictly less than 0)
+@Test
+void zeroThresholdWithIdenticalValuesReturnsFalse() {
+    var s = new humaneval.claude.task_0.Solution();
+    assertFalse(s.hasCloseElements(Arrays.asList(2.0, 2.0), 0.0));
+}
 ```
 
 ---
@@ -64,18 +71,18 @@ void nullListThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Balance never goes below zero | `[1, 2, 3]` | `false` | ✅ Base |
-| EC2 | Valid | Balance goes below zero mid-list | `[1, 2, -4, 5]` | `true` | ✅ Base |
-| EC3 | Valid | Empty list | `[]` | `false` | ✅ Base |
-| EC4 | Valid | All withdrawals, immediately negative | `[-1, -2, -3]` | `true` | ✅ T2.1 |
+| ID | Type | Description | Example Input    | Expected Output | Coverage |
+|----|------|-------------|------------------|-----------------|----|
+| EC1 | Valid | Balance never goes below zero | `[1, 2, 3]`      | `false` | ✅ Base |
+| EC2 | Valid | Balance goes below zero mid-list | `[1, 2, -4, 5]`  | `true` | ✅ Base |
+| EC3 | Valid | Empty list | `[]`             | `false` | ✅ Base |
+| EC4 | Valid | All withdrawals, immediately negative | `[-1, -2, -3]`   | `true` | ✅ T2.1 |
 | EC5 | Valid | Balance reaches exactly zero, never below | `[5, -5, 3, -3]` | `false` | ✅ Base |
-| EC6 | Valid | Single positive operation | `[10]` | `false` | ✅ T2.1 |
-| EC7 | Valid | Single negative operation | `[-1]` | `true` | ✅ T2.1 |
-| EC8 | Valid | Balance goes negative at last operation | `[5, -6]` | `true` | ✅ T2.1 |
-| EC9 | Valid | Single zero operation | `[0]` | `false` | ✅ T2.1 |
-| EC10 | Invalid | Null list | `null` | exception | ❌ |
+| EC6 | Valid | Single positive operation | `[10]`           | `false` |  ❌  |
+| EC7 | Valid | Single negative operation | `[-1]`           | `true` | ✅ T2.1 |
+| EC8 | Valid | Balance goes negative at last operation | `[4, -5]`        | `true` | ✅ Base |
+| EC9 | Valid | Single zero operation | `[0]`            | `false` | ✅ T2.1 |
+| EC10 | Invalid | Null list | `null`           | exception | ❌  |
 
 ### Boundary Condition Table
 
@@ -89,6 +96,13 @@ void nullListThrowsException() {
 ### Missing Test Cases
 
 ```java
+// EC6: Single positive operation
+@Test
+void singlePositiveOperationReturnsFalse() {
+    var s = new humaneval.claude.task_3.Solution();
+    assertFalse(s.belowZero(Collections.singletonList(10)));
+}
+
 // EC10: null input
 @Test
 void nullInputThrowsException() {
@@ -149,12 +163,14 @@ All equivalence classes and boundaries are covered. No new tests needed.
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| Single element | `[5]` | `[5]` | ✅ T2.1 |
-| Max at beginning | `[100, 1, 2]` | `[100, 100, 100]` | ✅ Base |
-| Max at end | `[1, 2, 100]` | `[1, 2, 100]` | ✅ Base |
-| All negatives | `[-3, -1, -2]` | `[-3, -1, -1]` | ✅ T2.1 |
+| Boundary | Input                     | Expected Output | Coverage |
+|----------|---------------------------|-----------------|---------|
+| Single element | `[5]`                     | `[5]` | ✅ T2.1 |
+| Max at beginning | `[100, 1, 2]`             | `[100, 100, 100]` | ✅ Base |
+| Max at end | `[1, 2, 100]`             | `[1, 2, 100]` | ✅ Base |
+| All negatives | `[-3, -1, -2]`            | `[-3, -1, -1]` | ✅ T2.1 |
+| Integer Minimum Value | `[Integer.MIN_VALUE, 0]`  |  `[Integer.MIN_VALUE, 0]` |  ✅ T2.1 |
+| Integer Maximum Value |     `[1, Integer.MAX_VALUE]` |  `[1, Integer.MAX_VALUE]` | ✅ T2.1        |
 
 ### Missing Test Cases
 
@@ -177,10 +193,10 @@ void nullInputThrowsException() {
 ### Equivalence Class Table
 
 | ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
+|----|------|-------------|---------------|-----------------|----|
 | EC1 | Valid | GCD > 1, both composite | `(10, 15)` | `5` | ✅ Base |
 | EC2 | Valid | GCD = 1 (coprime) | `(3, 7)` | `1` | ✅ Base |
-| EC3 | Valid | One is multiple of the other | `(4, 8)` | `4` | ✅ T2.1 |
+| EC3 | Valid | One is multiple of the other | `(4, 8)` | `4` | ❌ |
 | EC4 | Valid | Both equal | `(8, 8)` | `8` | ✅ T2.1 |
 | EC5 | Valid | One operand = 1 | `(1, 17)` | `1` | ✅ T2.1 |
 | EC6 | Valid | Large numbers | `(144, 60)` | `12` | ✅ Base |
@@ -189,16 +205,25 @@ void nullInputThrowsException() {
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| a = b | `(6, 6)` | `6` | ✅ T2.1 |
-| One input = 1 | `(1, 7)` | `1` | ✅ T2.1 |
-| a is multiple of b | `(12, 4)` | `4` | ✅ T2.1 |
-| b = 0 | `(9, 0)` | `9` | ✅ T2.1 |
+| Boundary           | Input     | Expected Output | Coverage |
+|--------------------|-----------|-----------------|----|
+| a = b              | `(6, 6)`  | `6`             | ✅ T2.1 |
+| One input = 1      | `(1, 7)`  | `1`             | ✅ T2.1 |
+| a is multiple of b | `(12, 4)` | `4`             | ❌ |
+| b = 0              | `(9, 0)`  | `9`             | ✅ T2.1 |
+| a = 0 b = 0        | `(0, 0)`  | `0`             | ✅ T2.1 |
 
 ### Missing Test Cases
 
-All equivalence classes and boundaries are covered. No new tests needed.
+```java
+// EC3 & Boundary: One is a multiple of the other (non-zero)
+@Test
+void gcdWhenOneIsMultipleOfOther() {
+    var s = new humaneval.claude.task_13.Solution();
+    assertEquals(4, s.greatestCommonDivisor(12, 4));
+    assertEquals(4, s.greatestCommonDivisor(4, 12));
+}
+```
 
 ---
 
@@ -213,17 +238,17 @@ All equivalence classes and boundaries are covered. No new tests needed.
 | EC1 | Valid | Normal multi-char string | `"asdfgh"` | `["a","as","asd","asdf","asdfg","asdfgh"]` | ✅ Base |
 | EC2 | Valid | Empty string | `""` | `[]` | ✅ Base |
 | EC3 | Valid | Single character | `"x"` | `["x"]` | ✅ T2.1 |
-| EC4 | Valid | All same characters | `"aaa"` | `["a","aa","aaa"]` | ✅ T2.1 |
+| EC4 | Valid | All same characters | `"aaa"` | `["a","aa","aaa"]` | ✅ Base |
 | EC5 | Valid | String with spaces | `"a b"` | `["a","a ","a b"]` | ✅ T2.1 |
 | EC6 | Invalid | Null input | `null` | exception | ❌ |
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| Length = 0 | `""` | `[]` | ✅ Base |
-| Length = 1 | `"x"` | `["x"]` | ✅ T2.1 |
-| Length = 2 | `"ab"` | `["a","ab"]` | ✅ T2.1 |
+| Boundary   | Input | Expected Output     | Coverage |
+|------------|-------|---------------------|----------|
+| Length = 0 | `""` | `[]`                | ✅ Base   |
+| Length = 1 | `"x"` | `["x"]`             | ✅ T2.1   |
+| Length = 3 | `"aaa"` | `["a","aa", "aaa"]` | ✅ Base    |
 
 ### Missing Test Cases
 
@@ -245,16 +270,17 @@ void nullInputThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | All distinct characters | `"abcde"` | `5` | ✅ Base |
-| EC2 | Valid | Empty string | `""` | `0` | ✅ Base |
-| EC3 | Valid | All same character | `"aaaa"` | `1` | ✅ Base |
-| EC4 | Valid | Mixed case, same letters | `"aAbB"` | `2` | ✅ Base |
-| EC5 | Valid | Single character | `"a"` | `1` | ✅ T2.1 |
-| EC6 | Valid | String with spaces | `"a b"` | `2` | ✅ T2.1 |
-| EC7 | Valid | Digits and symbols | `"1!2@3#"` | `6` | ✅ T2.1 |
-| EC8 | Invalid | Null input | `null` | exception | ❌ |
+| ID  | Type    | Description | Example Input | Expected Output | Coverage |
+|-----|---------|--------|-------------|-----------------|--------|
+| EC1 | Valid   | All distinct characters | `"abcde"` | `5`             | ✅ Base |
+| EC2 | Valid   | Empty string | `""` | `0`             | ✅ Base |
+| EC3 | Valid   | All same character | `"aaaa"` | `1`             | ✅ Base |
+| EC4 | Valid   | Mixed case, same letters | `"aAbB"` | `2`             | ✅ Base |
+| EC5 | Valid   | Single character | `"a"` | `1`             | ✅ T2.1 |
+| EC6 | Valid   | String with spaces | `"a b"` | `2`             | ✅ Base  |
+| EC7 | Valid   | Digits and symbols | `"1!2@3#"` | `6`             | ✅ T2.1 |
+| EC8 | Valid   | Unicode / Non-ASCII characters | `äöüÄÖÜ` | 3               | ✅ T2.1       |
+| EC9 | Invalid |    Null input   |    `null`  | exception       |    ❌    |
 
 ### Boundary Condition Table
 
@@ -286,26 +312,27 @@ void nullInputThrowsException() {
 
 | ID | Type | Description | Example Input | Expected Output | Coverage |
 |----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Normal non-overlapping match | `"john doe", "john"` | `1` | ✅ Base |
-| EC2 | Valid | Overlapping matches | `"aaaa", "aa"` | `3` | ✅ T2.1 |
-| EC3 | Valid | No match | `"hello world", "xyz"` | `0` | ✅ T2.1 |
-| EC4 | Valid | Main string empty | `"", "x"` | `0` | ✅ Base |
-| EC5 | Valid | Substring empty | `"abc", ""` | `0` | ✅ T2.1 |
-| EC6 | Valid | Substring equals string | `"abc", "abc"` | `1` | ✅ T2.1 |
-| EC7 | Valid | Substring longer than string | `"ab", "abcd"` | `0` | ✅ T2.1 |
-| EC8 | Valid | Multiple non-overlapping matches | `"xyxyxyx", "x"` | `4` | ✅ Base |
-| EC9 | Invalid | Null main string | `null, "x"` | exception | ❌ |
-| EC10 | Invalid | Null substring | `"abc", null` | `0` (GPT impl.) | ✅ T2.1 |
+| EC1 | Valid | Normal non-overlapping match | `"john doe", "john"` | `1` | ✅ Base   |
+| EC2 | Valid | Overlapping matches | `"aaaa", "aa"` | `3` | ✅ Base      |
+| EC3 | Valid | No match | `"hello world", "xyz"` | `0` | ✅ T2.1   |
+| EC4 | Valid | Main string empty | `"", "x"` | `0` | ✅ Base   |
+| EC5 | Valid | Substring empty | `"abc", ""` | `0` | ✅ T2.1   |
+| EC6 | Valid | Substring equals string | `"abc", "abc"` | `1` | ✅ T2.1   |
+| EC7 | Valid | Substring longer than string | `"ab", "abcd"` | `0` | ✅ T2.1   |
+| EC8 | Valid | Multiple non-overlapping matches | `"xyxyxyx", "x"` | `4` | ✅ Base   |
+| EC9 | Invalid | Null main string | `null, "x"` | exception | ❌        |
+| EC10 | Invalid | Null substring | `"abc", null` | `0` (GPT impl.) | ✅ T2.1   |
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| String length = 0 | `"", "x"` | `0` | ✅ Base |
-| Substring length = 0 | `"abc", ""` | `0` | ✅ T2.1 |
-| Substring = string | `"abc", "abc"` | `1` | ✅ T2.1 |
-| Substring 1 char longer | `"ab", "abc"` | `0` | ✅ T2.1 |
-| Full overlap sequence | `"aaaa", "aa"` | `3` | ✅ T2.1 |
+| Boundary                     | Input          | Expected Output | Coverage |
+|------------------------------|----------------|-----------------|----------|
+| String length = 0            | `"", "x"`      | `0`             | ✅ Base |
+| Substring length = 0         | `"abc", ""`    | `0`             | ✅ T2.1 |
+| Substring = string           | `"abc", "abc"` | `1`             | ✅ T2.1 |
+| Substring longer than string | `"ab", "abcd"` | `0`             | ✅ T2.1 |
+| Full overlap sequence        | `"aaaa", "aa"` | `3`             | ✅ T2.1 |
+| Both length = 0              | `"", ""`         | 0               |      ✅ T2.1  |
 
 ### Missing Test Cases
 
@@ -327,24 +354,25 @@ void nullStringThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Multiple words out of order | `"five zero four seven nine eight"` | `"zero four five seven eight nine"` | ✅ Base |
-| EC2 | Valid | Empty string | `""` | `""` | ✅ Base |
-| EC3 | Valid | Single word | `"three"` | `"three"` | ✅ Base |
-| EC4 | Valid | Already sorted | `"three five nine"` | `"three five nine"` | ✅ Base |
-| EC5 | Valid | All ten digit words | `"nine eight ... zero"` | `"zero one ... nine"` | ✅ T2.1 |
-| EC6 | Valid | Duplicate words | `"two one three two one"` | `"one one two two three"` | ✅ T2.1 |
-| EC7 | Valid | Two words reversed | `"nine zero"` | `"zero nine"` | ✅ T2.1 |
-| EC8 | Invalid | Null input | `null` | `""` (Claude impl.) | ✅ T2.1 |
-| EC9 | Invalid | Unknown word | `"ten"` | exception/undefined | ❌ |
+| ID   | Type    | Description                 | Example Input | Expected Output                    | Coverage |
+|------|---------|-----------------------------|---------------|------------------------------------|----------|
+| EC1  | Valid   | Multiple words out of order | `"five zero four seven nine eight"` | `"zero four five seven eight nine"` | ✅ Base |
+| EC2  | Valid   | Empty string                | `""` | `""`                               | ✅ Base |
+| EC3  | Valid   | Single word                 | `"three"` | `"three"`                          | ✅ Base |
+| EC4  | Valid   | Already sorted              | `"three five nine"` | `"three five nine"`                | ✅ Base |
+| EC5  | Valid   | All ten digit words         | `"nine eight ... zero"` | `"zero one ... nine"`              | ✅ T2.1 |
+| EC6  | Valid   | Duplicate words             | `"two one three two one"` | `"one one two two three"`          | ✅ T2.1 |
+| EC7  | Valid   | Two words reversed          | `"nine zero"` | `"zero nine"`                      | ✅ T2.1 |
+| EC8  | Invalid | Null input                  | `null` | `""` (Claude impl.)                | ✅ T2.1 |
+| EC9  | Invalid | Unknown word                | `"ten"` | exception/undefined                | ❌ |
+| EC10 | Valid     | Blank / whitespace-only string |     `" \t\n "`    | `""`     | ✅ T2.1  |
 
 ### Boundary Condition Table
 
 | Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| Single word "zero" | `"zero"` | `"zero"` | ✅ T2.1 |
-| Single word "nine" | `"nine"` | `"nine"` | ✅ T2.1 |
+|----------|-------|-----------------|--|
+| Single word "zero" | `"zero"` | `"zero"` | ❌ |
+| Single word "nine" | `"nine"` | `"nine"` | ❌ |
 | Two words reversed | `"nine zero"` | `"zero nine"` | ✅ T2.1 |
 | Null input | `null` | `""` | ✅ T2.1 |
 
@@ -358,6 +386,20 @@ void unknownWordThrowsException() {
     assertThrows(Exception.class,
         () -> s.sortNumbers("ten"));
 }
+
+// Boundary: Lowest valid single numeral
+@Test
+void singleLowestNumeralReturnsItself() {
+    var s = new humaneval.claude.task_19.Solution();
+    assertEquals("zero", s.sortNumbers("zero"));
+}
+
+// Boundary: Highest valid single numeral
+@Test
+void singleHighestNumeralReturnsItself() {
+    var s = new humaneval.claude.task_19.Solution();
+    assertEquals("nine", s.sortNumbers("nine"));
+}
 ```
 
 ---
@@ -368,14 +410,15 @@ void unknownWordThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Normal string | `"abc"` | `3` | ✅ Base |
-| EC2 | Valid | Empty string | `""` | `0` | ✅ Base |
-| EC3 | Valid | Single character | `"x"` | `1` | ✅ Base |
-| EC4 | Valid | String with spaces | `"a b c"` | `5` | ✅ T2.1 |
-| EC5 | Valid | Special characters | `"ab!"` | `3` | ❌ |
-| EC6 | Invalid | Null input | `null` | exception | ❌ |
+| ID  | Type    | Description | Example Input | Expected Output | Coverage |
+|-----|---------|-------------|---------------|-----------------|----------|
+| EC1 | Valid   | Normal string | `"abc"`         | `3`             | ✅ T2.1       |
+| EC2 | Valid   | Empty string | `""`          | `0`             | ✅ Base   |
+| EC3 | Valid   | Single character | `"x"`         | `1`             | ✅ Base   |
+| EC4 | Valid   | String with spaces | `"a b c"`     | `5`             | ✅ T2.1   |
+| EC5 | Valid   | Special characters | `"ab!"`       | `3`             | ❌        |
+| EC6 | Invalid | Null input | `null`        | exception       | ❌        |
+| EC7 | Valid       |      Unicode/Emoji (Surrogate Pair)      |        `"😀"`       | `2`             |    ❌      |
 
 ### Boundary Condition Table
 
@@ -402,6 +445,13 @@ void nullInputThrowsException() {
     assertThrows(NullPointerException.class,
         () -> s.strlen(null));
 }
+
+// EC7: Surrogate pairs / Emojis (Java length returns code units, not code points)
+@Test
+void surrogatePairsReturnTwoCodeUnits() {
+    var s = new humaneval.claude.task_23.Solution();
+    assertEquals(2, s.strlen("😀"));
+}
 ```
 
 ---
@@ -413,13 +463,13 @@ void nullInputThrowsException() {
 ### Equivalence Class Table
 
 | ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
+|----|------|-------------|---------------|-----------------|----|
 | EC1 | Valid | Some duplicates | `[1, 2, 3, 2, 4, 3, 5]` | `[1, 4, 5]` | ✅ Base |
 | EC2 | Valid | No duplicates | `[1, 2, 3, 4]` | `[1, 2, 3, 4]` | ✅ Base |
 | EC3 | Valid | Empty list | `[]` | `[]` | ✅ Base |
 | EC4 | Valid | All duplicates (result empty) | `[1, 1, 2, 2]` | `[]` | ✅ T2.1 |
 | EC5 | Valid | Single element | `[42]` | `[42]` | ✅ T2.1 |
-| EC6 | Valid | All same element | `[5, 5, 5]` | `[]` | ✅ T2.1 |
+| EC6 | Valid | All same element | `[5, 5, 5]` | `[]` | ❌ |
 | EC7 | Valid | Element appears 3+ times | `[1, 1, 1, 3]` | `[3]` | ✅ T2.1 |
 | EC8 | Valid | Negative numbers | `[-1, -1, -3]` | `[-3]` | ✅ T2.1 |
 | EC9 | Invalid | Null list | `null` | exception | ❌ |
@@ -435,6 +485,14 @@ void nullInputThrowsException() {
 ### Missing Test Cases
 
 ```java
+// EC6: All elements are exactly the same
+@Test
+void allSameElementsReturnsEmptyList() {
+    var s = new humaneval.claude.task_26.Solution();
+    assertEquals(Collections.emptyList(),
+            s.removeDuplicates(Arrays.asList(5, 5, 5, 5)));
+}
+
 // EC9: null input
 @Test
 void nullInputThrowsException() {
@@ -452,17 +510,18 @@ void nullInputThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Mixed case string | `"Hello!"` | `"hELLO!"` | ✅ Base |
-| EC2 | Valid | Empty string | `""` | `""` | ✅ Base |
-| EC3 | Valid | All lowercase | `"abcxyz"` | `"ABCXYZ"` | ✅ T2.1 |
-| EC4 | Valid | All uppercase | `"ABCXYZ"` | `"abcxyz"` | ✅ T2.1 |
-| EC5 | Valid | Non-letter characters only | `"123 !@#_."` | `"123 !@#_."` | ✅ T2.1 |
-| EC6 | Valid | Single lowercase | `"a"` | `"A"` | ✅ T2.1 |
-| EC7 | Valid | Single uppercase | `"A"` | `"a"` | ✅ T2.1 |
-| EC8 | Valid | Digits mixed with letters | `"a1B"` | `"A1b"` | ❌ |
-| EC9 | Invalid | Null input | `null` | exception | ❌ |
+| ID   | Type    | Description | Example Input | Expected Output | Coverage |
+|------|---------|-------------|---------------|-----------------|---------|
+| EC1  | Valid   | Mixed case string | `"Hello!"` | `"hELLO!"` | ✅ Base |
+| EC2  | Valid   | Empty string | `""` | `""` | ✅ Base |
+| EC3  | Valid   | All lowercase | `"abcxyz"` | `"ABCXYZ"` | ✅ T2.1 |
+| EC4  | Valid   | All uppercase | `"ABCXYZ"` | `"abcxyz"` | ✅ T2.1 |
+| EC5  | Valid   | Non-letter characters only | `"123 !@#_."` | `"123 !@#_."` | ✅ T2.1 |
+| EC6  | Valid   | Single lowercase | `"a"` | `"A"` | ✅ T2.1 |
+| EC7  | Valid   | Single uppercase | `"A"` | `"a"` | ✅ T2.1 |
+| EC8  | Valid   | Digits mixed with letters | `"a1B"` | `"A1b"` | ✅ T2.1 |
+| EC9  | Invalid | Null input | `null` | exception | ❌ |
+| EC10 | Valid       |     Unicode / Non-ASCII characters       |   `"üĞş"`     |   `"ÜğŞ"`        | ❌  |
 
 ### Boundary Condition Table
 
@@ -476,12 +535,7 @@ void nullInputThrowsException() {
 ### Missing Test Cases
 
 ```java
-// EC8: digits mixed with letters
-@Test
-void digitsUnchangedLettersFlipped() {
-    var s = new humaneval.claude.task_27.Solution();
-    assertEquals("A1b", s.flipCase("a1B"));
-}
+
 
 // EC9: null input
 @Test
@@ -489,6 +543,13 @@ void nullInputThrowsException() {
     var s = new humaneval.claude.task_27.Solution();
     assertThrows(NullPointerException.class,
         () -> s.flipCase(null));
+}
+
+// EC10: Unicode / Non-ASCII characters
+@Test
+void flipsCaseForUnicodeCharacters() {
+    var s = new humaneval.claude.task_27.Solution();
+    assertEquals("ÜğŞ", s.flipCase("üĞş"));
 }
 ```
 
@@ -515,18 +576,32 @@ void nullInputThrowsException() {
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| n = 0 | `0` | `false` | ✅ T2.1 |
-| n = 1 | `1` | `false` | ✅ Base |
-| n = 2 | `2` | `true` | ✅ T2.1 |
-| n = 3 | `3` | `true` | ✅ T2.1 |
-| n = negative | `-1` | `false` | ✅ T2.1 |
+| Boundary | Input               | Expected Output | Coverage |
+|----------|---------------------|-----------------|----|
+| n = 0    | `0`                 | `false`         | ✅ T2.1 |
+| n = 1    | `1`                 | `false`         | ✅ Base |
+| n = 2    | `2`                 | `true`          | ✅ T2.1 |
+| n = 3    | `3`                 | `true`          | ✅ T2.1 |
+| n = -1   | `-1`                | `false`         | ❌ |
+|   Upper limit of int (n = Integer.MAX_VALUE)       | `Integer.MAX_VALUE` | `true`           | ❌  |
 
 ### Missing Test Cases
 
-All equivalence classes and boundaries are covered. No new tests needed.
+```java
+// Boundary: Exact negative boundary just below 0
+@Test
+void negativeOneIsNotPrime() {
+    var s = new humaneval.claude.task_31.Solution();
+    assertFalse(s.isPrime(-1));
+}
 
+// Boundary / Edge Case: Maximum integer value (causes infinite loop in naive i*i <= n implementations)
+@Test
+void integerMaxValueIsPrimeAndDoesNotOverflow() {
+    var s = new humaneval.claude.task_31.Solution();
+    assertTrue(s.isPrime(Integer.MAX_VALUE));
+}
+```
 ---
 
 ## Task 47 — `median(List<Integer> l)`
@@ -535,25 +610,26 @@ All equivalence classes and boundaries are covered. No new tests needed.
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Odd count list | `[3, 1, 2, 4, 5]` | `3.0` | ✅ Base |
-| EC2 | Valid | Even count list | `[6, 5]` | `5.5` | ✅ Base |
-| EC3 | Valid | Single element | `[5]` | `5.0` | ✅ Base |
-| EC4 | Valid | Two elements | `[3, 7]` | `5.0` | ✅ T2.1 |
-| EC5 | Valid | All same elements | `[7, 7, 7, 7, 7]` | `7.0` | ✅ T2.1 |
-| EC6 | Valid | All negative numbers | `[-1, -2, -3, -4, -5]` | `-3.0` | ✅ T2.1 |
-| EC7 | Valid | Already sorted | `[1, 2, 3, 4, 5, 6, 7]` | `4.0` | ✅ T2.1 |
-| EC8 | Invalid | Empty list | `[]` | exception | ❌ |
-| EC9 | Invalid | Null list | `null` | exception | ❌ |
+| ID | Type | Description | Example Input           | Expected Output | Coverage |
+|----|------|-------------|-------------------------|-----------------|----------|
+| EC1 | Valid | Odd count list | `[3, 1, 2, 4, 5]`       | `3.0`           | ✅ Base   |
+| EC2 | Valid | Even count list | `[6, 5]`                | `5.5`           | ✅ Base   |
+| EC3 | Valid | Single element | `[5]`                   | `5.0`           | ✅ Base   |
+| EC4 | Valid | Two elements | `[6, 5]`                | `5.5`           | ✅ Base   |
+| EC5 | Valid | All same elements | `[7, 7, 7, 7, 7]`       | `7.0`           | ✅ T2.1   |
+| EC6 | Valid | All negative numbers | `[-1, -2, -3, -4, -5]`  | `-3.0`          | ✅ T2.1   |
+| EC7 | Valid | Already sorted | `[1, 2, 3, 4, 5, 6, 7]` | `4.0`           | ✅ T2.1   |
+| EC8 | Invalid | Empty list | `[]`                    | exception       | ❌        |
+| EC9 | Invalid | Null list | `null`                  | exception       | ❌        |
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
-| Single element | `[5]` | `5.0` | ✅ Base |
-| Two elements | `[3, 7]` | `5.0` | ✅ T2.1 |
-| Even count, large spread | `[-10, 4, 6, 1000, 10, 20]` | `8.0` | ✅ Base |
+| Boundary | Input                       | Expected Output | Coverage |
+|----------|-----------------------------|-----------------|----------|
+| Single element | `[5]`                       | `5.0`           | ✅ Base   |
+| Two elements | `[6, 5]`                    | `5.5`           | ✅ Base   |
+| Even count, large spread | `[-10, 4, 6, 1000, 10, 20]` | `8.0`           | ✅ Base   |
+|  Integer Limits (Overflow Risk)      |    `[MAX_VALUE, MAX_VALUE]`  |      `2147483647.0`           |   ✅ T2.1       |
 
 ### Missing Test Cases
 
@@ -583,25 +659,27 @@ void nullListThrowsException() {
 
 ### Equivalence Class Table
 
-| ID | Type | Description | Example Input | Expected Output | Coverage |
-|----|------|-------------|---------------|-----------------|----------|
-| EC1 | Valid | Normal case | `(3, 5)` | `3` | ✅ Base |
-| EC2 | Valid | n = 0 (result = 1 mod p) | `(0, 101)` | `1` | ✅ Base |
-| EC3 | Valid | Large n | `(1101, 101)` | `2` | ✅ Base |
-| EC4 | Valid | p = 2 | `(5, 2)` | `0` | ✅ T2.1 |
-| EC5 | Valid | n = 1 | `(1, 7)` | `2` | ✅ T2.1 |
-| EC6 | Valid | p = 1 (result always 0) | `(5, 1)` | `0` | ✅ T2.1 |
-| EC7 | Valid | Result = 0 (exact divisor) | `(10, 1024)` | `0` | ✅ T2.1 |
-| EC8 | Invalid | p = 0 | `(3, 0)` | exception (div by zero) | ❌ |
+| ID  | Type    | Description                | Example Input | Expected Output | Coverage |
+|-----|---------|----------------------------|---------------|-----------------|----------|
+| EC1 | Valid   | Normal case                | `(3, 5)`      | `3` | ✅ Base |
+| EC2 | Valid   | n = 0 (result = 1 mod p)   | `(0, 101)`    | `1` | ✅ Base |
+| EC3 | Valid   | Large n                    | `(1101, 101)` | `2` | ✅ Base |
+| EC4 | Valid   | p = 2                      | `(1, 2)`      | `0` | ✅ T2.1 |
+| EC5 | Valid   | n = 1                      | `(1, 7)`      | `2` | ✅ T2.1 |
+| EC6 | Valid   | p = 1 (result always 0)    | `(5, 1)`      | `0` | ✅ T2.1 |
+| EC7 | Valid   | Result = 0 (exact divisor) | `(10, 1024)`  | `0` | ✅ T2.1 |
+| EC8 | Invalid | p = 0                      | `(3, 0)`      | exception (div by zero) | ❌ |
+| EC9 | Invalid | Negative exponent (n < 0)  |    `(-3, 5)`           |   undefined/exception      |  ❌ |
+| EC10 | Invalid |         Negative modulus (p < 0)                   |         `(3, -5)`               |    undefined/exception                        |  ❌  |
 
 ### Boundary Condition Table
 
-| Boundary | Input | Expected Output | Coverage |
-|----------|-------|-----------------|----------|
+| Boundary | Input      | Expected Output | Coverage |
+|----------|------------|-----------------|----------|
 | n = 0 | `(0, 101)` | `1` | ✅ Base |
-| n = 1 | `(1, 7)` | `2` | ✅ T2.1 |
-| p = 1 | `(5, 1)` | `0` | ✅ T2.1 |
-| p = 2 | `(5, 2)` | `0` | ✅ T2.1 |
+| n = 1 | `(1, 7)`   | `2` | ✅ T2.1 |
+| p = 1 | `(5, 1)`   | `0` | ✅ T2.1 |
+| p = 2 | `(1, 2)`   | `0` | ✅ T2.1 |
 
 ### Missing Test Cases
 
@@ -612,6 +690,22 @@ void modulusZeroThrowsArithmeticException() {
     var s = new humaneval.claude.task_49.Solution();
     assertThrows(ArithmeticException.class,
         () -> s.modp(3, 0));
+}
+
+// EC9: Negative exponent might not be supported or requires modular inverse
+@Test
+void negativeExponentThrowsException() {
+    var s = new humaneval.claude.task_49.Solution();
+    assertThrows(IllegalArgumentException.class,
+            () -> s.modp(-3, 5));
+}
+
+// EC10: Negative modulus behavior
+@Test
+void negativeModulusThrowsException() {
+    var s = new humaneval.claude.task_49.Solution();
+    assertThrows(IllegalArgumentException.class,
+            () -> s.modp(3, -5));
 }
 ```
 
