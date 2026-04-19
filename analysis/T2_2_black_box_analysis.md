@@ -1276,9 +1276,8 @@ void kLargerThanArrayThrowsException() {
 | Day = 30 for February | `"02-30-2020"` | `false` | ✅ T2.1 |
 
 ### Missing Test Cases
+All equivalence classes and boundaries are covered. No new tests needed.
 
-
-```
 
 ---
 
