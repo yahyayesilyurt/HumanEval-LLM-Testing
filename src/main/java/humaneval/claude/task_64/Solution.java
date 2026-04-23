@@ -17,17 +17,18 @@ public class Solution {
     3
      */
     public int vowelsCount(String s) {
-    int count = 0;
-    String vowels = "aeiouAEIOU";
-    for (int i = 0; i < s.length(); i++) {
-        if (vowels.indexOf(s.charAt(i)) != -1) {
+        if (s.isEmpty()) return 0;
+        int count = 0;
+        String vowels = "aeiouAEIOU";
+        for (int i = 0; i < s.length(); i++) {
+            if (vowels.indexOf(s.charAt(i)) != -1) {
+                count++;
+            }
+        }
+        char last = s.charAt(s.length() - 1);
+        if (last == 'y' || last == 'Y') {
             count++;
         }
+        return count;
     }
-    char last = s.charAt(s.length() - 1);
-    if (last == 'y' || last == 'Y') {
-        count++;
-    }
-    return count;
-}
 }
