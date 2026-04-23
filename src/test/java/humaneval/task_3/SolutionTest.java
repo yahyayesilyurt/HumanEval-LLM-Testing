@@ -3,6 +3,9 @@ package humaneval.task_3;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -37,5 +40,21 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC6: Single positive operation
+    @Test
+    void singlePositiveOperationReturnsFalse() {
+        var s = new humaneval.claude.task_3.Solution();
+        assertFalse(s.belowZero(Collections.singletonList(10)));
+    }
+
+    // EC10: null input
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_3.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.belowZero(null));
     }
 }

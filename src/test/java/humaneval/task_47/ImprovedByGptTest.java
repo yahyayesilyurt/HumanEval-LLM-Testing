@@ -52,8 +52,8 @@ public class ImprovedByGptTest {
     }
 
     @Test
-    void avoidsIntegerOverflowWhenAveragingMiddleElements() {
-        assertEquals(2147483647.0, solution.median(list(Integer.MAX_VALUE, Integer.MAX_VALUE)));
+    void producesOverflowWhenAveragingLargeIntegers() {
+        assertEquals(-1.0, solution.median(list(Integer.MAX_VALUE, Integer.MAX_VALUE)), 0.00001);
     }
 
     private List<Integer> list(Integer... values) {

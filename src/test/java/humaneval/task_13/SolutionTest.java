@@ -3,6 +3,8 @@ package humaneval.task_13;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class SolutionTest {
 
     @Test
@@ -33,5 +35,14 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC3 & Boundary: One is a multiple of the other (non-zero)
+    @Test
+    void gcdWhenOneIsMultipleOfOther() {
+        var s = new humaneval.claude.task_13.Solution();
+        assertEquals(4, s.greatestCommonDivisor(12, 4));
+        assertEquals(4, s.greatestCommonDivisor(4, 12));
     }
 }

@@ -3,6 +3,9 @@ package humaneval.task_31;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class SolutionTest {
 
     @Test
@@ -51,5 +54,20 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // Boundary: Exact negative boundary just below 0
+    @Test
+    void negativeOneIsNotPrime() {
+        var s = new humaneval.claude.task_31.Solution();
+        assertFalse(s.isPrime(-1));
+    }
+
+    // Boundary / Edge Case: Maximum integer value (causes infinite loop in naive i*i <= n implementations)
+    @Test
+    void integerMaxValueIsPrimeAndDoesNotOverflow() {
+        var s = new humaneval.claude.task_31.Solution();
+        assertTrue(s.isPrime(Integer.MAX_VALUE));
     }
 }
