@@ -3,6 +3,9 @@ package humaneval.task_49;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -39,5 +42,28 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC8: p = 0 causes division by zero
+    @Test
+    void modulusZeroThrowsArithmeticException() {
+        var s = new humaneval.claude.task_49.Solution();
+        assertThrows(ArithmeticException.class,
+                () -> s.modp(3, 0));
+    }
+
+    // EC9: Negative exponent might not be supported or requires modular inverse
+    @Test
+    void negativeExponentReturnsOne() {
+        var s = new humaneval.claude.task_49.Solution();
+        assertEquals(1, s.modp(-3, 5));
+    }
+
+    // EC10: Negative modulus behavior
+    @Test
+    void negativeModulusStillComputesResult() {
+        var s = new humaneval.claude.task_49.Solution();
+        assertEquals(3, s.modp(3, -5));
     }
 }

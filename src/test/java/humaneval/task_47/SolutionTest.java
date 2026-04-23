@@ -3,6 +3,8 @@ package humaneval.task_47;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -33,5 +35,22 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC8: empty list
+    @Test
+    void emptyListThrowsException() {
+        var s = new humaneval.claude.task_47.Solution();
+        assertThrows(Exception.class,
+                () -> s.median(List.of()));
+    }
+
+    // EC9: null list
+    @Test
+    void nullListThrowsException() {
+        var s = new humaneval.claude.task_47.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.median(null));
     }
 }

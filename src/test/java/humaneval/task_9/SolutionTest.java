@@ -3,6 +3,8 @@ package humaneval.task_9;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -33,5 +35,14 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC8: null input
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_9.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.rollingMax(null));
     }
 }

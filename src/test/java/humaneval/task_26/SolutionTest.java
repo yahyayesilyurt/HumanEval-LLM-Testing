@@ -3,6 +3,9 @@ package humaneval.task_26;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -31,5 +34,22 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC6: All elements are exactly the same
+    @Test
+    void allSameElementsReturnsEmptyList() {
+        var s = new humaneval.claude.task_26.Solution();
+        assertEquals(Collections.emptyList(),
+                s.removeDuplicates(Arrays.asList(5, 5, 5, 5)));
+    }
+
+    // EC9: null input
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_26.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.removeDuplicates(null));
     }
 }

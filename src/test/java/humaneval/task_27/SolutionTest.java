@@ -3,6 +3,9 @@ package humaneval.task_27;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -31,5 +34,21 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC9: null input
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_27.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.flipCase(null));
+    }
+
+    // EC10: Unicode / Non-ASCII characters
+    @Test
+    void flipsCaseForUnicodeCharacters() {
+        var s = new humaneval.claude.task_27.Solution();
+        assertEquals("ÜğŞ", s.flipCase("üĞş"));
     }
 }

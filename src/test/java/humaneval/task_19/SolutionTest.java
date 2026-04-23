@@ -3,6 +3,9 @@ package humaneval.task_19;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -33,5 +36,28 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+    // EC9: invalid word not in the defined set
+    @Test
+    void unknownWordThrowsExceptionWhenCompared() {
+        var s = new humaneval.claude.task_19.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.sortNumbers("ten one"));
+    }
+
+    // Boundary: Lowest valid single numeral
+    @Test
+    void singleLowestNumeralReturnsItself() {
+        var s = new humaneval.claude.task_19.Solution();
+        assertEquals("zero", s.sortNumbers("zero"));
+    }
+
+    // Boundary: Highest valid single numeral
+    @Test
+    void singleHighestNumeralReturnsItself() {
+        var s = new humaneval.claude.task_19.Solution();
+        assertEquals("nine", s.sortNumbers("nine"));
     }
 }
