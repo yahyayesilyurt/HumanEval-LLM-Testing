@@ -3,6 +3,8 @@ package humaneval.task_120;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -45,5 +47,23 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC8: null list — NoneType: Returns None mutation
+    @Test
+    void nullListThrowsException() {
+        var s = new humaneval.claude.task_120.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.maximum(null, 2));
+    }
+
+    // EC9: k > array length — Returns x+1 mutation on k beyond array boundary
+    @Test
+    void kLargerThanArrayThrowsException() {
+        var s = new humaneval.claude.task_120.Solution();
+        assertThrows(Exception.class,
+                () -> s.maximum(Arrays.asList(1, 2), 5));
     }
 }

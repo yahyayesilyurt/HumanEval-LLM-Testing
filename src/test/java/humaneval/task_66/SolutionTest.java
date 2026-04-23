@@ -3,6 +3,8 @@ package humaneval.task_66;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -41,5 +43,15 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC9: null input — NoneType: Returns None mutation
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_66.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.digitSum(null));
     }
 }

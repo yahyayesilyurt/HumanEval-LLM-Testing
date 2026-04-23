@@ -3,6 +3,8 @@ package humaneval.task_100;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class SolutionTest {
 
     @Test
@@ -35,5 +37,21 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC6: n = 0 — Returns x-1 mutation: boundary at zero, expect empty list
+    @Test
+    void nEqualsZeroReturnsEmpty() {
+        var s = new humaneval.claude.task_100.Solution();
+        assertEquals(List.of(), s.makeAPile(0));
+    }
+
+    // EC7: n negative — Returns x-1 mutation applied below zero boundary
+    @Test
+    void nNegativeReturnsEmpty() {
+        var s = new humaneval.claude.task_100.Solution();
+        assertEquals(List.of(), s.makeAPile(-1));
     }
 }

@@ -3,6 +3,9 @@ package humaneval.task_93;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -35,5 +38,22 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC8: all five lowercase vowels — Replace s with Mutate(s): all vowels input
+    @Test
+    void allVowelsLowercase() {
+        var s = new humaneval.claude.task_93.Solution();
+        assertEquals("CGKQW", s.encode("aeiou"));
+    }
+
+    // EC9: null input — NoneType: Returns None mutation
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_93.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.encode(null));
     }
 }

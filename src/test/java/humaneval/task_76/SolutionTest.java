@@ -3,6 +3,8 @@ package humaneval.task_76;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 class SolutionTest {
 
     @Test
@@ -57,5 +59,21 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC9: x = 0 — Returns x-1 mutation: boundary below minimum valid input
+    @Test
+    void xEqualsZeroReturnsFalse() {
+        var s = new humaneval.claude.task_76.Solution();
+        assertFalse(s.isSimplePower(0, 2));
+    }
+
+    // EC10: x negative — Returns x-1 mutation applied to minimum: negative x
+    @Test
+    void xNegativeReturnsFalse() {
+        var s = new humaneval.claude.task_76.Solution();
+        assertFalse(s.isSimplePower(-4, 2));
     }
 }

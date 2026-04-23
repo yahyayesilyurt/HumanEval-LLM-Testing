@@ -3,6 +3,9 @@ package humaneval.task_129;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -47,5 +50,35 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC5: k = 2 — Returns x-1 mutation on k: minimum non-trivial path length
+    @Test
+    void kEqualsTwoReturnsFirstTwoSteps() {
+        var s = new humaneval.claude.task_129.Solution();
+        assertEquals(
+                Arrays.asList(1, 2),
+                s.minPath(Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4)), 2)
+        );
+    }
+
+    // EC8: k = 0 — Returns x-1 mutation: boundary below minimum valid k
+    @Test
+    void kEqualsZeroReturnsEmpty() {
+        var s = new humaneval.claude.task_129.Solution();
+        assertEquals(
+                List.of(),
+                s.minPath(Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4)), 0)
+        );
+    }
+
+    // EC9: null grid — NoneType: Returns None mutation
+    @Test
+    void nullGridThrowsException() {
+        var s = new humaneval.claude.task_129.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.minPath(null, 3));
     }
 }

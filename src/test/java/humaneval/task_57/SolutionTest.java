@@ -3,6 +3,9 @@ package humaneval.task_57;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class SolutionTest {
 
     @Test
@@ -41,5 +44,22 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC11: null input — NoneType: Returns None mutation
+    @Test
+    void nullInputThrowsException() {
+        var s = new humaneval.claude.task_57.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.monotonic(null));
+    }
+
+    // Boundary: increases then plateau — [1, 2, 2] should return true
+    @Test
+    void increasesThenPlateauReturnsTrue() {
+        var s = new humaneval.claude.task_57.Solution();
+        assertTrue(s.monotonic(Arrays.asList(1, 2, 2)));
     }
 }

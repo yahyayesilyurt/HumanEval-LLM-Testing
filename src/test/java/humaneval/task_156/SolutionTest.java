@@ -1,7 +1,10 @@
 package humaneval.task_156;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
@@ -53,5 +56,26 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC10: boundary 999 — Returns x-1 mutation on max: complex subtractive form just below 1000
+    @Test
+    void nineHundredNinetyNine() {
+        var s = new humaneval.claude.task_156.Solution();
+        assertEquals("cmxcix", s.intToMiniRoman(999));
+    }
+
+    // EC11: n = 0 — Returns x-1 mutation below minimum; timeout guards against infinite loop
+    @Test
+    @Timeout(1)
+    void zeroIsOutOfRange() {
+        var s = new humaneval.claude.task_156.Solution();
+        try {
+            s.intToMiniRoman(0);
+        } catch (Exception e) {
+            // Any exception is acceptable — what matters is the test does not hang
+        }
     }
 }

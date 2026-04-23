@@ -3,6 +3,9 @@ package humaneval.task_87;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -75,5 +78,35 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC6: searching for zero — Replace s with Mutate(s): target value mutated to 0
+    @Test
+    void searchForZero() {
+        var s = new humaneval.claude.task_87.Solution();
+        assertEquals(
+                Arrays.asList(Arrays.asList(0, 0), Arrays.asList(1, 1)),
+                s.getRow(Arrays.asList(Arrays.asList(0, 1), Arrays.asList(2, 0)), 0)
+        );
+    }
+
+    // EC7: single cell grid, match — Remove/Repeat mutation: minimal 1x1 grid
+    @Test
+    void singleCellMatch() {
+        var s = new humaneval.claude.task_87.Solution();
+        assertEquals(
+                List.of(Arrays.asList(0, 0)),
+                s.getRow(List.of(List.of(5)), 5)
+        );
+    }
+
+    // EC9: null outer list — NoneType: Returns None mutation
+    @Test
+    void nullOuterListThrowsException() {
+        var s = new humaneval.claude.task_87.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.getRow(null, 1));
     }
 }

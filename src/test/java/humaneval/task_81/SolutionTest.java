@@ -3,6 +3,9 @@ package humaneval.task_81;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class SolutionTest {
 
     @Test
@@ -37,5 +40,22 @@ class SolutionTest {
             throw new AssertionError();
         }
     
+    }
+
+    // Tests with mutations
+
+    // EC15: null list — NoneType: Returns None mutation
+    @Test
+    void nullListThrowsException() {
+        var s = new humaneval.claude.task_81.Solution();
+        assertThrows(NullPointerException.class,
+                () -> s.numericalLetterGrade(null));
+    }
+
+    // Boundary: exactly 3.7 — Returns x±1 mutation on boundary value between A and A-
+    @Test
+    void exactlyThreePointSevenIsAMinus() {
+        var s = new humaneval.claude.task_81.Solution();
+        assertEquals(List.of("A-"), s.numericalLetterGrade(List.of(3.7)));
     }
 }
