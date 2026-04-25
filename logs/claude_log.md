@@ -7659,3 +7659,313 @@ class ImprovedByClaudeTest {
 }
 ```
 ````
+
+## Java/64 — improve, iteration 2
+
+- **Task ID:** `Java/64`
+- **Model:** Claude Opus 4.6 (1M context)
+- **Timestamp:** 2026-04-23T15:30:18+03:00
+- **Elapsed:** 3.95s
+
+### Prompt
+
+````
+A mutation test added in Step 6 fails with a runtime exception.
+
+Package: `humaneval.task_64`
+Solution under test: `humaneval.claude.task_64.Solution`
+
+Failing test method:
+```java
+// EC10: empty string — Remove a random item mutation: empty input
+@Test
+void emptyStringReturnsZero() {
+    var s = new humaneval.claude.task_64.Solution();
+    assertEquals(0, s.vowelsCount(""));
+}
+```
+
+Failure output:
+```
+java.lang.StringIndexOutOfBoundsException: Index -1 out of bounds for length 0
+    at humaneval.claude.task_64.Solution.vowelsCount(Solution.java:27)
+```
+
+Current implementation:
+```java
+package humaneval.claude.task_64;
+
+import java.util.*;
+import java.lang.*;
+
+public class Solution {
+    public int vowelsCount(String s) {
+        int count = 0;
+        String vowels = "aeiouAEIOU";
+        for (int i = 0; i < s.length(); i++) {
+            if (vowels.indexOf(s.charAt(i)) != -1) {
+                count++;
+            }
+        }
+        char last = s.charAt(s.length() - 1);
+        if (last == 'y' || last == 'Y') {
+            count++;
+        }
+        return count;
+    }
+}
+```
+
+Root cause: when the input string is empty, s.length() - 1 evaluates to -1,
+causing s.charAt(-1) to throw StringIndexOutOfBoundsException.
+
+Requirements:
+- Empty string should return 0
+- Null string should still throw NullPointerException (required by nullInputThrowsException test)
+- All existing base tests must still pass
+
+Please fix the implementation with minimal changes.
+````
+
+### Response
+
+````
+```java
+package humaneval.claude.task_64;
+
+import java.util.*;
+import java.lang.*;
+
+public class Solution {
+    /**
+    Write a function vowelsCount which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
+
+    Example:
+    >>> vowelsCount("abcde")
+    2
+    >>> vowelsCount("ACEDY")
+    3
+     */
+    public int vowelsCount(String s) {
+        if (s.isEmpty()) return 0;
+        int count = 0;
+        String vowels = "aeiouAEIOU";
+        for (int i = 0; i < s.length(); i++) {
+            if (vowels.indexOf(s.charAt(i)) != -1) {
+                count++;
+            }
+        }
+        char last = s.charAt(s.length() - 1);
+        if (last == 'y' || last == 'Y') {
+            count++;
+        }
+        return count;
+    }
+}
+```
+````
+
+### Usage Note
+
+The fix was applied as suggested. `if (s.isEmpty()) return 0;` was added as the
+first line of the method. Intentionally, `null` is not caught here — calling
+`s.isEmpty()` on a null reference naturally throws `NullPointerException`, which
+is the expected behavior verified by the `nullInputThrowsException` mutation test
+(EC11). After applying the fix, all 5 tests in `humaneval.task_64.SolutionTest`
+passed: `claude()`, `gpt()`, `singleConsonantReturnsZero()`,
+`emptyStringReturnsZero()`, and `nullInputThrowsException()`.
+
+---
+
+## Java/160 — improve, iteration 2
+
+- **Task ID:** `Java/160`
+- **Model:** Claude Opus 4.6 (1M context)
+- **Timestamp:** 2026-04-23T14:52:55+03:00
+- **Elapsed:** 3.98s
+
+### Prompt
+
+````
+A mutation test added in Step 6 fails with an assertion error.
+
+Package: `humaneval.task_160`
+Solution under test: `humaneval.claude.task_160.Solution`
+
+Failing test method:
+```java
+// EC11: unsupported operator — Replace operator with Mutate(op): invalid symbol
+@Test
+void unsupportedOperatorThrowsException() {
+    var s = new humaneval.claude.task_160.Solution();
+    assertThrows(Exception.class,
+            () -> s.doAlgebra(List.of("^"), Arrays.asList(2, 3)));
+}
+```
+
+Failure output:
+```
+org.opentest4j.AssertionFailedError: Expected java.lang.Exception to be thrown,
+but nothing was thrown.
+```
+
+Current implementation:
+```java
+package humaneval.claude.task_160;
+
+import java.util.*;
+import java.lang.*;
+
+public class Solution {
+    public int doAlgebra(List<String> operator, List<Integer> operand) {
+        List<Integer> nums = new ArrayList<>(operand);
+        List<String> ops = new ArrayList<>(operator);
+
+        // Pass 1: exponentiation (right-to-left)
+        for (int i = ops.size() - 1; i >= 0; i--) {
+            if (ops.get(i).equals("**")) {
+                int val = (int) Math.pow(nums.get(i), nums.get(i + 1));
+                nums.set(i, val);
+                nums.remove(i + 1);
+                ops.remove(i);
+            }
+        }
+
+        // Pass 2: multiplication and floor division (left-to-right)
+        for (int i = 0; i < ops.size(); ) {
+            String op = ops.get(i);
+            if (op.equals("*") || op.equals("/")) {
+                int val = op.equals("*")
+                        ? nums.get(i) * nums.get(i + 1)
+                        : Math.floorDiv(nums.get(i), nums.get(i + 1));
+                nums.set(i, val);
+                nums.remove(i + 1);
+                ops.remove(i);
+            } else {
+                i++;
+            }
+        }
+
+        // Pass 3: addition and subtraction (left-to-right)
+        int result = nums.get(0);
+        for (int i = 0; i < ops.size(); i++) {
+            if (ops.get(i).equals("+")) result += nums.get(i + 1);
+            else result -= nums.get(i + 1);
+        }
+        return result;
+    }
+}
+```
+
+Root cause: in Pass 3, the `else` branch silently treats any unrecognized operator
+(e.g. "^") as subtraction instead of raising an error. The method returns a value
+instead of throwing an exception when an invalid operator is provided.
+
+Requirements:
+- Any operator not in {+, -, *, /, **} must throw an exception
+- All existing base tests must still pass
+- Null input lists should still throw NullPointerException
+
+Please fix the implementation with minimal changes.
+````
+
+### Response
+
+````
+```java
+package humaneval.claude.task_160;
+
+import java.util.*;
+import java.lang.*;
+
+public class Solution {
+    /**
+    Given two lists operator, and operand. The first list has basic algebra operations, and
+    the second list is a list of integers. Use the two given lists to build the algebric
+    expression and return the evaluation of this expression.
+
+    The basic algebra operations:
+    Addition ( + )
+    Subtraction ( - )
+    Multiplication ( * )
+    Floor division ( / )
+    Exponentiation ( ** )
+
+    Example:
+    operator["+", "*", "-"]
+    array = [2, 3, 4, 5]
+    result = 2 + 3 * 4 - 5
+    => result = 9
+
+    Note:
+        The length of operator list is equal to the length of operand list minus one.
+        Operand is a list of of non-negative integers.
+        Operator list has at least one operator, and operand list has at least two operands.
+     */
+    private static final Set<String> VALID_OPS = Set.of("+", "-", "*", "/", "**");
+
+    public int doAlgebra(List<String> operator, List<Integer> operand) {
+        // Validate all operators upfront
+        for (String op : operator) {
+            if (!VALID_OPS.contains(op)) {
+                throw new IllegalArgumentException("Unsupported operator: " + op);
+            }
+        }
+
+        List<Integer> nums = new ArrayList<>(operand);
+        List<String> ops = new ArrayList<>(operator);
+
+        // Pass 1: exponentiation (right-to-left)
+        for (int i = ops.size() - 1; i >= 0; i--) {
+            if (ops.get(i).equals("**")) {
+                int val = (int) Math.pow(nums.get(i), nums.get(i + 1));
+                nums.set(i, val);
+                nums.remove(i + 1);
+                ops.remove(i);
+            }
+        }
+
+        // Pass 2: multiplication and floor division (left-to-right)
+        for (int i = 0; i < ops.size(); ) {
+            String op = ops.get(i);
+            if (op.equals("*") || op.equals("/")) {
+                int val = op.equals("*")
+                        ? nums.get(i) * nums.get(i + 1)
+                        : Math.floorDiv(nums.get(i), nums.get(i + 1));
+                nums.set(i, val);
+                nums.remove(i + 1);
+                ops.remove(i);
+            } else {
+                i++;
+            }
+        }
+
+        // Pass 3: addition and subtraction (left-to-right)
+        int result = nums.get(0);
+        for (int i = 0; i < ops.size(); i++) {
+            if (ops.get(i).equals("+")) result += nums.get(i + 1);
+            else result -= nums.get(i + 1);
+        }
+        return result;
+    }
+}
+```
+````
+
+### Usage Note
+
+The fix was applied as suggested. A `VALID_OPS` constant set containing the five
+supported operators was added as a class-level field. An upfront validation loop
+was inserted at the start of `doAlgebra` that throws `IllegalArgumentException`
+for any operator not in the set. Since `IllegalArgumentException` extends
+`RuntimeException` which extends `Exception`, the `assertThrows(Exception.class, ...)`
+assertion in the mutation test is satisfied. After applying the fix, all 8 tests in
+`humaneval.task_160.SolutionTest` passed: `claude()`, `gpt()`,
+`singleMultiplication()`, `singleFloorDivision()`, `singleExponentiation()`,
+`unsupportedOperatorThrowsException()`, `nullOperatorListThrowsException()`,
+and `nullOperandListThrowsException()`.
+
+---
