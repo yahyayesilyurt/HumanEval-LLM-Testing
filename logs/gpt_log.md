@@ -6335,3 +6335,190 @@ class ImprovedByGptTest {
 }
 ```
 ````
+
+---
+
+## Java/47 — improve, iteration 2
+
+- **Task ID:** `Java/47`
+- **Model:** GPT-5.4
+- **Timestamp:** 2026-04-25T10:55:33+03:00
+- **Elapsed:** 15.65s
+
+### Prompt
+
+````
+Refactor this Java Solution to fix the bug exposed by the failing test.
+
+Package: `humaneval.gpt.task_47`
+Class: `Solution`
+
+Solution under test:
+````java
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
+package humaneval.gpt.task_47;
+
+import java.util.*;
+import java.lang.*;
+
+public class Solution {
+    /**
+    Return median of elements in the list l.
+    >>> median(Arrays.asList(3, 1, 2, 4, 5))
+    3
+    >>> median(Arrays.asList(-10, 4, 6, 1000, 10, 20))
+    15.0
+     */
+    public double median(List<Integer> l) {
+    List<Integer> sorted = new ArrayList<>(l);
+    Collections.sort(sorted);
+
+    int n = sorted.size();
+    if (n % 2 == 1) {
+        return sorted.get(n / 2);
+    }
+
+    return (sorted.get(n / 2 - 1) + sorted.get(n / 2)) / 2.0;
+}
+}
+````
+
+Failing test:
+````java
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
+package humaneval.task_47;
+
+import humaneval.gpt.task_47.Solution;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class ImprovedByGptTest {
+
+    private final Solution solution = new Solution();
+
+    @Test
+    void returnsMedianForOddSizedUnsortedList() {
+        assertEquals(3.0, solution.median(list(3, 1, 2, 4, 5)));
+    }
+
+    @Test
+    void returnsAverageOfMiddleTwoValuesForEvenSizedUnsortedList() {
+        assertEquals(8.0, solution.median(list(-10, 4, 6, 1000, 10, 20)));
+    }
+
+    @Test
+    void handlesSmallLists() {
+        assertAll(
+                () -> assertEquals(5.0, solution.median(list(5))),
+                () -> assertEquals(5.5, solution.median(list(6, 5)))
+        );
+    }
+
+    @Test
+    void handlesNegativeAndDuplicateValues() {
+        assertAll(
+                () -> assertEquals(-3.0, solution.median(list(-1, -2, -3, -4, -5))),
+                () -> assertEquals(7.0, solution.median(list(7, 7, 7, 7, 7))),
+                () -> assertEquals(3.0, solution.median(list(1, 3, 3, 5)))
+        );
+    }
+
+    @Test
+    void doesNotMutateTheInputList() {
+        List<Integer> input = new ArrayList<>(list(3, 1, 2, 4, 5));
+        List<Integer> originalOrder = new ArrayList<>(input);
+
+        solution.median(input);
+
+        assertEquals(originalOrder, input);
+    }
+
+    @Test
+    void avoidsIntegerOverflowWhenAveragingMiddleElements() {
+        assertEquals(2147483647.0, solution.median(list(Integer.MAX_VALUE, Integer.MAX_VALUE)));
+    }
+
+    private List<Integer> list(Integer... values) {
+        return Arrays.asList(values);
+    }
+}
+````
+
+Failing test output (from `mvn test`):
+```
+[ERROR] humaneval.task_47.ImprovedByGptTest.avoidsIntegerOverflowWhenAveragingMiddleElements -- Time elapsed: 0.021 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2.147483647E9> but was: <-1.0>
+	at humaneval.task_47.ImprovedByGptTest.avoidsIntegerOverflowWhenAveragingMiddleElements(ImprovedByGptTest.java:60)
+```
+
+Output a single ```java ... ``` fenced block containing the complete refactored Solution class. No prose outside the fence.
+
+````
+
+### Response
+
+````
+```java
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
+package humaneval.gpt.task_47;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Solution {
+    /**
+     * Return median of elements in the list l.
+     * >>> median(Arrays.asList(3, 1, 2, 4, 5))
+     * 3
+     * >>> median(Arrays.asList(-10, 4, 6, 1000, 10, 20))
+     * 8.0
+     */
+    public double median(List<Integer> l) {
+        if (l == null || l.isEmpty()) {
+            throw new IllegalArgumentException("List must not be null or empty");
+        }
+
+        List<Integer> sorted = new ArrayList<>(l);
+        Collections.sort(sorted);
+
+        int n = sorted.size();
+        if (n % 2 == 1) {
+            return sorted.get(n / 2);
+        }
+
+        long left = sorted.get(n / 2 - 1);
+        long right = sorted.get(n / 2);
+        return (left + right) / 2.0;
+    }
+}
+```
+````
+
+### Usage Note
+
+The fix was applied as suggested. Both middle elements are now promoted to `long`
+before summation, eliminating the `int + int` overflow that previously yielded
+`-1.0` for `[Integer.MAX_VALUE, Integer.MAX_VALUE]`. The model also added an
+upfront `null` / `isEmpty()` guard that throws `IllegalArgumentException`; no
+existing test exercises GPT's `median` on null/empty input, so this addition does
+not affect any test result. The Step 6 test rename
+(`producesOverflowWhenAveragingLargeIntegers`, asserting the buggy `-1.0`) was
+reverted to its Step 5 form (`avoidsIntegerOverflowWhenAveragingMiddleElements`,
+asserting `2147483647.0`) as part of the same commit, so the failing test that
+drove this refactor is now passing against the corrected Solution.

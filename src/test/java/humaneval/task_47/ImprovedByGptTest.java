@@ -1,3 +1,7 @@
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
 package humaneval.task_47;
 
 import humaneval.gpt.task_47.Solution;
@@ -52,8 +56,8 @@ public class ImprovedByGptTest {
     }
 
     @Test
-    void producesOverflowWhenAveragingLargeIntegers() {
-        assertEquals(-1.0, solution.median(list(Integer.MAX_VALUE, Integer.MAX_VALUE)), 0.00001);
+    void avoidsIntegerOverflowWhenAveragingMiddleElements() {
+        assertEquals(2147483647.0, solution.median(list(Integer.MAX_VALUE, Integer.MAX_VALUE)));
     }
 
     private List<Integer> list(Integer... values) {
