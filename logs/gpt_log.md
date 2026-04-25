@@ -56,6 +56,9 @@ If you want, I can also add a `null`-safe version.
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_23;` and otherwise wrote the code verbatim.
 ## Java/14 — codegen, iteration 1
 
 - **Task ID:** `Java/14`
@@ -105,6 +108,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_14;` and otherwise wrote the code verbatim.
 ## Java/16 — codegen, iteration 1
 
 - **Task ID:** `Java/16`
@@ -152,6 +158,9 @@ This returns `3` for `"xyzXYZ"` and `4` for `"Jerry"`.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_16;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/26 — codegen, iteration 1
 
 - **Task ID:** `Java/26`
@@ -203,6 +212,9 @@ public List<Integer> removeDuplicates(List<Integer> numbers) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_26;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/49 — codegen, iteration 1
 
 - **Task ID:** `Java/49`
@@ -261,6 +273,9 @@ This uses fast modular exponentiation, so it avoids computing `2^n` directly and
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_49;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/57 — codegen, iteration 1
 
 - **Task ID:** `Java/57`
@@ -316,6 +331,9 @@ It returns `true` for increasing, decreasing, or equal-adjacent sequences.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_57;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/100 — codegen, iteration 1
 
 - **Task ID:** `Java/100`
@@ -367,6 +385,9 @@ This works because each level increases by `2`, preserving odd/even parity from 
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_100;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/120 — codegen, iteration 1
 
 - **Task ID:** `Java/120`
@@ -440,6 +461,9 @@ This sorts the array in ascending order and returns the last `k` elements, which
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_120;` and otherwise wrote the code verbatim.
 ## Java/3 — codegen, iteration 1
 
 - **Task ID:** `Java/3`
@@ -501,6 +525,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_3;` and otherwise wrote the code verbatim.
 ## Java/4 — codegen, iteration 1
 
 - **Task ID:** `Java/4`
@@ -556,6 +583,9 @@ public double meanAbsoluteDeviation(List<Double> numbers) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_4;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/18 — codegen, iteration 1
 
 - **Task ID:** `Java/18`
@@ -607,6 +637,9 @@ This counts overlapping matches, so `"aaaa"` with `"aa"` returns `3`.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_18;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/47 — codegen, iteration 1
 
 - **Task ID:** `Java/47`
@@ -658,6 +691,9 @@ Your second example’s expected value is off: for `[-10, 4, 6, 1000, 10, 20]`, 
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_47;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/66 — codegen, iteration 1
 
 - **Task ID:** `Java/66`
@@ -712,6 +748,9 @@ The repo already has this in [Solution.java](/Users/baris/Projects/HumanEval-LLM
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_66;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/76 — codegen, iteration 1
 
 - **Task ID:** `Java/76`
@@ -773,6 +812,9 @@ This works because a simple power must be divisible by `n` repeatedly until it b
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_76;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/86 — codegen, iteration 1
 
 - **Task ID:** `Java/86`
@@ -839,6 +881,9 @@ If you want, I can also provide a full runnable `class Solution` version.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_86;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/0 — codegen, iteration 1
 
 - **Task ID:** `Java/0`
@@ -897,6 +942,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_0;` and otherwise wrote the code verbatim.
 ## Java/9 — codegen, iteration 1
 
 - **Task ID:** `Java/9`
@@ -953,6 +1001,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_9;` and otherwise wrote the code verbatim.
 ## Java/27 — codegen, iteration 1
 
 - **Task ID:** `Java/27`
@@ -1010,6 +1061,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_27;` and otherwise wrote the code verbatim.
 ## Java/31 — codegen, iteration 1
 
 - **Task ID:** `Java/31`
@@ -1069,6 +1123,9 @@ The repo already has this filled in at [Solution.java](/Users/baris/Projects/Hum
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_31;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/56 — codegen, iteration 1
 
 - **Task ID:** `Java/56`
@@ -1146,6 +1203,9 @@ This tracks unmatched `<` brackets and fails early if a `>` appears before a mat
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_56;` and otherwise wrote the code verbatim.
 ## Java/64 — codegen, iteration 1
 
 - **Task ID:** `Java/64`
@@ -1200,6 +1260,9 @@ This handles uppercase too, and counts `y` only if it is the last character.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_64;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/87 — codegen, iteration 1
 
 - **Task ID:** `Java/87`
@@ -1262,6 +1325,9 @@ This works because rows are processed in ascending order, and each row is scanne
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_87;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/156 — codegen, iteration 1
 
 - **Task ID:** `Java/156`
@@ -1332,6 +1398,9 @@ If you want, I can also rewrite it in a shorter or more interview-style version.
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_156;` and otherwise wrote the code verbatim.
 ## Java/13 — codegen, iteration 1
 
 - **Task ID:** `Java/13`
@@ -1393,6 +1462,9 @@ This uses the Euclidean algorithm, which is the standard efficient approach for 
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_13;` and otherwise wrote the code verbatim.
 ## Java/19 — codegen, iteration 1
 
 - **Task ID:** `Java/19`
@@ -1452,6 +1524,9 @@ For `sortNumbers("three one five")`, this returns `"one three five"`.
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_19;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/81 — codegen, iteration 1
 
 - **Task ID:** `Java/81`
@@ -1532,6 +1607,9 @@ If you want, I can also rewrite it in a cleaner table-driven version.
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_81;` and otherwise wrote the code verbatim.
 ## Java/93 — codegen, iteration 1
 
 - **Task ID:** `Java/93`
@@ -1598,6 +1676,9 @@ For example:
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.gpt.task_93;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/124 — codegen, iteration 1
 
 - **Task ID:** `Java/124`
@@ -1669,6 +1750,9 @@ This follows the prompt exactly, including allowing up to `29` days in February 
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_124;` and otherwise wrote the code verbatim.
 ## Java/129 — codegen, iteration 1
 
 - **Task ID:** `Java/129`
@@ -1786,6 +1870,9 @@ Time complexity is `O(N^2 + k)`, since each step checks at most 4 neighbors.
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_129;` and otherwise wrote the code verbatim.
 ## Java/160 — codegen, iteration 1
 
 - **Task ID:** `Java/160`
@@ -1909,6 +1996,9 @@ This respects normal precedence and uses `Math.floorDiv` for floor division.
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.gpt.task_160;` and otherwise wrote the code verbatim.
 ## Java/14 — improve, iteration 1
 
 - **Task ID:** `Java/14`
@@ -2047,6 +2137,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/16 — improve, iteration 1
 
 - **Task ID:** `Java/16`
@@ -2169,6 +2262,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/23 — improve, iteration 1
 
 - **Task ID:** `Java/23`
@@ -2270,6 +2366,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/26 — improve, iteration 1
 
 - **Task ID:** `Java/26`
@@ -2391,6 +2490,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/49 — improve, iteration 1
 
 - **Task ID:** `Java/49`
@@ -2543,6 +2645,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/57 — improve, iteration 1
 
 - **Task ID:** `Java/57`
@@ -2677,6 +2782,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/100 — improve, iteration 1
 
 - **Task ID:** `Java/100`
@@ -2817,6 +2925,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/120 — improve, iteration 1
 
 - **Task ID:** `Java/120`
@@ -2984,6 +3095,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/3 — improve, iteration 1
 
 - **Task ID:** `Java/3`
@@ -3115,6 +3229,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/4 — improve, iteration 1
 
 - **Task ID:** `Java/4`
@@ -3271,6 +3388,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/18 — improve, iteration 1
 
 - **Task ID:** `Java/18`
@@ -3400,6 +3520,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/47 — improve, iteration 1
 
 - **Task ID:** `Java/47`
@@ -3548,6 +3671,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/66 — improve, iteration 1
 
 - **Task ID:** `Java/66`
@@ -3680,6 +3806,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/76 — improve, iteration 1
 
 - **Task ID:** `Java/76`
@@ -3846,6 +3975,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/86 — improve, iteration 1
 
 - **Task ID:** `Java/86`
@@ -3993,6 +4125,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/0 — improve, iteration 1
 
 - **Task ID:** `Java/0`
@@ -4151,6 +4286,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/9 — improve, iteration 1
 
 - **Task ID:** `Java/9`
@@ -4284,6 +4422,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/27 — improve, iteration 1
 
 - **Task ID:** `Java/27`
@@ -4402,6 +4543,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/31 — improve, iteration 1
 
 - **Task ID:** `Java/31`
@@ -4550,6 +4694,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/56 — improve, iteration 1
 
 - **Task ID:** `Java/56`
@@ -4708,6 +4855,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/64 — improve, iteration 1
 
 - **Task ID:** `Java/64`
@@ -4844,6 +4994,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Test method countsStandardVowelsCaseInsensitively: `"AEon"` has 3 vowels (A,E,o); the LLM expected 2. Corrected in place. Test method countsYOnlyWhenItIsTheLastCharacter: the LLM thought the function only counts trailing y, ignoring a/e/i/o/u; `"yellow"` was expected 0 (actual 2: e,o). Corrected in place.
 ## Java/87 — improve, iteration 1
 
 - **Task ID:** `Java/87`
@@ -5073,6 +5226,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/156 — improve, iteration 1
 
 - **Task ID:** `Java/156`
@@ -5232,6 +5388,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/13 — improve, iteration 1
 
 - **Task ID:** `Java/13`
@@ -5356,6 +5515,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/19 — improve, iteration 1
 
 - **Task ID:** `Java/19`
@@ -5500,6 +5662,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/81 — improve, iteration 1
 
 - **Task ID:** `Java/81`
@@ -5651,6 +5816,9 @@ public class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/93 — improve, iteration 1
 
 - **Task ID:** `Java/93`
@@ -5779,6 +5947,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/124 — improve, iteration 1
 
 - **Task ID:** `Java/124`
@@ -5937,6 +6108,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/129 — improve, iteration 1
 
 - **Task ID:** `Java/129`
@@ -6139,6 +6313,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByGptTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/160 — improve, iteration 1
 
 - **Task ID:** `Java/160`
@@ -6338,6 +6515,9 @@ class ImprovedByGptTest {
 
 ---
 
+### Usage Note
+
+Test method handlesFloorDivisionAndZeroExponent: same Python-floor vs Java-truncate confusion as Claude/Java/160. Expected values corrected.
 ## Java/47 — improve, iteration 2
 
 - **Task ID:** `Java/47`

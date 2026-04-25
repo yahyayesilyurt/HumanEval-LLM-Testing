@@ -42,6 +42,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_23;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/14 — codegen, iteration 1
 
 - **Task ID:** `Java/14`
@@ -92,6 +95,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_14;` and otherwise wrote the code verbatim.
 ## Java/16 — codegen, iteration 1
 
 - **Task ID:** `Java/16`
@@ -135,6 +141,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_16;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/26 — codegen, iteration 1
 
 - **Task ID:** `Java/26`
@@ -191,6 +200,9 @@ Counts occurrences in one pass, then keeps only elements appearing exactly once 
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_26;` and otherwise wrote the code verbatim.
 ## Java/49 — codegen, iteration 1
 
 - **Task ID:** `Java/49`
@@ -242,6 +254,9 @@ Uses modular exponentiation by repeated doubling — keeps the intermediate valu
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_49;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/57 — codegen, iteration 1
 
 - **Task ID:** `Java/57`
@@ -310,6 +325,9 @@ Iterates once, tracking whether the sequence could still be non-decreasing or no
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_57;` and otherwise wrote the code verbatim.
 ## Java/100 — codegen, iteration 1
 
 - **Task ID:** `Java/100`
@@ -360,6 +378,9 @@ Each level adds 2 stones to the previous, preserving parity. Starting at `n` and
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_100;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/120 — codegen, iteration 1
 
 - **Task ID:** `Java/120`
@@ -423,6 +444,9 @@ Sort ascending, then take the last `k` elements — they're already in sorted or
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_120;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/3 — codegen, iteration 1
 
 - **Task ID:** `Java/3`
@@ -484,6 +508,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_3;` and otherwise wrote the code verbatim.
 ## Java/4 — codegen, iteration 1
 
 - **Task ID:** `Java/4`
@@ -534,6 +561,9 @@ public double meanAbsoluteDeviation(List<Double> numbers) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_4;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/18 — codegen, iteration 1
 
 - **Task ID:** `Java/18`
@@ -580,6 +610,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_18;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/47 — codegen, iteration 1
 
 - **Task ID:** `Java/47`
@@ -639,6 +672,9 @@ Sorts a copy of the list so the input isn't mutated, then returns the middle ele
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_47;` and otherwise wrote the code verbatim.
 ## Java/66 — codegen, iteration 1
 
 - **Task ID:** `Java/66`
@@ -689,6 +725,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_66;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/76 — codegen, iteration 1
 
 - **Task ID:** `Java/76`
@@ -743,6 +782,9 @@ public boolean isSimplePower(int x, int n) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_76;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/86 — codegen, iteration 1
 
 - **Task ID:** `Java/86`
@@ -796,6 +838,9 @@ Splits on single spaces (preserving empty tokens so consecutive spaces are kept)
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_86;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/0 — codegen, iteration 1
 
 - **Task ID:** `Java/0`
@@ -855,6 +900,9 @@ Compares every pair once (O(n²)); returns `true` as soon as any pair's absolute
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_0;` and otherwise wrote the code verbatim.
 ## Java/9 — codegen, iteration 1
 
 - **Task ID:** `Java/9`
@@ -913,6 +961,9 @@ Iterates once through the list, tracking the running max and appending it at eac
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_9;` and otherwise wrote the code verbatim.
 ## Java/27 — codegen, iteration 1
 
 - **Task ID:** `Java/27`
@@ -959,6 +1010,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_27;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/31 — codegen, iteration 1
 
 - **Task ID:** `Java/31`
@@ -1035,6 +1089,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_31;` and otherwise wrote the code verbatim.
 ## Java/56 — codegen, iteration 1
 
 - **Task ID:** `Java/56`
@@ -1092,6 +1149,9 @@ Track nesting depth: increment on `<`, decrement on `>`. If depth ever goes nega
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_56;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/64 — codegen, iteration 1
 
 - **Task ID:** `Java/64`
@@ -1146,6 +1206,9 @@ public int vowelsCount(String s) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_64;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/87 — codegen, iteration 1
 
 - **Task ID:** `Java/87`
@@ -1217,6 +1280,9 @@ Final: `[[0,0],[1,4],[1,0],[2,5],[2,0]]` ✓
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_87;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/156 — codegen, iteration 1
 
 - **Task ID:** `Java/156`
@@ -1274,6 +1340,9 @@ Verification against the examples:
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_156;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/13 — codegen, iteration 1
 
 - **Task ID:** `Java/13`
@@ -1331,6 +1400,9 @@ Uses the Euclidean algorithm: repeatedly replace `(a, b)` with `(b, a mod b)` un
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_13;` and otherwise wrote the code verbatim.
 ## Java/19 — codegen, iteration 1
 
 - **Task ID:** `Java/19`
@@ -1390,6 +1462,9 @@ class Solution {
 
 ---
 
+### Usage Note
+
+Response included the `class Solution { ... }` wrapper but no `package` declaration. Extraction prepended `package humaneval.claude.task_19;` and otherwise wrote the code verbatim.
 ## Java/81 — codegen, iteration 1
 
 - **Task ID:** `Java/81`
@@ -1478,6 +1553,9 @@ Straightforward descending cascade — each `>` threshold matches the spec exact
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_81;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/93 — codegen, iteration 1
 
 - **Task ID:** `Java/93`
@@ -1546,6 +1624,9 @@ Traces:
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_93;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/124 — codegen, iteration 1
 
 - **Task ID:** `Java/124`
@@ -1625,6 +1706,9 @@ Key checks:
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_124;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/129 — codegen, iteration 1
 
 - **Task ID:** `Java/129`
@@ -1712,6 +1796,9 @@ public List<Integer> minPath(List<List<Integer>> grid, int k) {
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_129;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/160 — codegen, iteration 1
 
 - **Task ID:** `Java/160`
@@ -1802,6 +1889,9 @@ Three precedence passes: `**` first (right-associative), then `*`/`/`, then `+`/
 
 ---
 
+### Usage Note
+
+Response continued from the prompt's open `class Solution {` and contained only the method body and matching close braces. Extraction reconstructed the file: prepended `package humaneval.claude.task_160;`, retained the prompt's imports and class signature, and made `class` public. No body changes.
 ## Java/14 — improve, iteration 1
 
 - **Task ID:** `Java/14`
@@ -1931,6 +2021,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/16 — improve, iteration 1
 
 - **Task ID:** `Java/16`
@@ -2090,6 +2183,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/23 — improve, iteration 1
 
 - **Task ID:** `Java/23`
@@ -2204,6 +2300,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/26 — improve, iteration 1
 
 - **Task ID:** `Java/26`
@@ -2355,6 +2454,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/49 — improve, iteration 1
 
 - **Task ID:** `Java/49`
@@ -2544,6 +2646,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/57 — improve, iteration 1
 
 - **Task ID:** `Java/57`
@@ -2769,6 +2874,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/100 — improve, iteration 1
 
 - **Task ID:** `Java/100`
@@ -2917,6 +3025,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/120 — improve, iteration 1
 
 - **Task ID:** `Java/120`
@@ -3167,6 +3278,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Test method handlesAllNegativeArray: the LLM expected `[-3,-1]` as top-2 of `[-5,-3,-1,-7,-2]`; actual top-2 is `[-2,-1]`. The expected value was corrected in place.
 ## Java/3 — improve, iteration 1
 
 - **Task ID:** `Java/3`
@@ -3337,6 +3451,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/4 — improve, iteration 1
 
 - **Task ID:** `Java/4`
@@ -3556,6 +3673,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/18 — improve, iteration 1
 
 - **Task ID:** `Java/18`
@@ -3711,6 +3831,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/47 — improve, iteration 1
 
 - **Task ID:** `Java/47`
@@ -3909,6 +4032,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/66 — improve, iteration 1
 
 - **Task ID:** `Java/66`
@@ -4073,6 +4199,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/76 — improve, iteration 1
 
 - **Task ID:** `Java/76`
@@ -4241,6 +4370,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/86 — improve, iteration 1
 
 - **Task ID:** `Java/86`
@@ -4438,6 +4570,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/0 — improve, iteration 1
 
 - **Task ID:** `Java/0`
@@ -4678,6 +4813,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/9 — improve, iteration 1
 
 - **Task ID:** `Java/9`
@@ -4954,6 +5092,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Test method plateauOfMaximumStaysAtMaximum: rolling-max is monotonically non-decreasing; the LLM's expected `[1,3,3,3,3,2,3,3]` was impossible. The expected value was corrected in place.
 ## Java/27 — improve, iteration 1
 
 - **Task ID:** `Java/27`
@@ -5119,6 +5260,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/31 — improve, iteration 1
 
 - **Task ID:** `Java/31`
@@ -5275,6 +5419,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/56 — improve, iteration 1
 
 - **Task ID:** `Java/56`
@@ -5456,6 +5603,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/64 — improve, iteration 1
 
 - **Task ID:** `Java/64`
@@ -5634,6 +5784,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/87 — improve, iteration 1
 
 - **Task ID:** `Java/87`
@@ -5903,6 +6056,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/156 — improve, iteration 1
 
 - **Task ID:** `Java/156`
@@ -6047,6 +6203,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/13 — improve, iteration 1
 
 - **Task ID:** `Java/13`
@@ -6194,6 +6353,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/19 — improve, iteration 1
 
 - **Task ID:** `Java/19`
@@ -6367,6 +6529,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/81 — improve, iteration 1
 
 - **Task ID:** `Java/81`
@@ -6604,6 +6769,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/93 — improve, iteration 1
 
 - **Task ID:** `Java/93`
@@ -6823,6 +6991,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/124 — improve, iteration 1
 
 - **Task ID:** `Java/124`
@@ -7153,6 +7324,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/129 — improve, iteration 1
 
 - **Task ID:** `Java/129`
@@ -7411,6 +7585,9 @@ class ImprovedByClaudeTest {
 
 ---
 
+### Usage Note
+
+Response was a complete `ImprovedByClaudeTest` class and was written verbatim by `scripts/improve_tests.py`. No edits were applied.
 ## Java/160 — improve, iteration 1
 
 - **Task ID:** `Java/160`
@@ -7660,6 +7837,9 @@ class ImprovedByClaudeTest {
 ```
 ````
 
+### Usage Note
+
+Test method floorDivisionFloorsTowardNegativeInfinity: the LLM applied Python floor-division semantics; Java truncates toward zero. The method was renamed to `integerDivisionTruncatesTowardZero` and its expected value adjusted.
 ## Java/64 — improve, iteration 2
 
 - **Task ID:** `Java/64`
