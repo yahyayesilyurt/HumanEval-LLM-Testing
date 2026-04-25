@@ -1,3 +1,7 @@
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
 package humaneval.task_100;
 
 import humaneval.gpt.task_100.Solution;
