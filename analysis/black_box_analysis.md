@@ -1478,39 +1478,39 @@ void nullOperandListThrowsException() {
 
 | Task | Method | Total ECs | ✅ Base | ✅ Step 5 | ❌ Still uncovered | New Tests |
 |------|--------|-----------|---------|---------|-------------------|-----------|
-| 0 | `hasCloseElements` | 8 | 3 | 4 | 1 (null) | 1 |
-| 3 | `belowZero` | 10 | 4 | 5 | 1 (null) | 1 |
+| 0 | `hasCloseElements` | 8 | 3 | 4 | 1 (null) | 2 |
+| 3 | `belowZero` | 10 | 5 | 3 | 2 (single positive op, null) | 2 |
 | 4 | `meanAbsoluteDeviation` | 7 | 1 | 6 | 0 | 0 |
 | 9 | `rollingMax` | 8 | 4 | 3 | 1 (null) | 1 |
-| 13 | `greatestCommonDivisor` | 8 | 3 | 5 | 0 | 0 |
-| 14 | `allPrefixes` | 6 | 2 | 3 | 1 (null) | 1 |
-| 16 | `countDistinctCharacters` | 8 | 4 | 3 | 1 (null) | 1 |
-| 18 | `howManyTimes` | 10 | 3 | 6 | 1 (null string) | 1 |
-| 19 | `sortNumbers` | 9 | 4 | 4 | 1 (invalid word) | 1 |
-| 23 | `strlen` | 6 | 3 | 1 | 2 | 2 |
-| 26 | `removeDuplicates` | 9 | 3 | 5 | 1 (null) | 1 |
-| 27 | `flipCase` | 9 | 3 | 5 | 2 | 2 |
-| 31 | `isPrime` | 10 | 6 | 4 | 0 | 0 |
-| 47 | `median` | 9 | 4 | 4 | 2 (empty, null) | 2 |
-| 49 | `modp` | 8 | 4 | 3 | 1 (p=0) | 1 |
-| 56 | `correctBracketing` | 9 | 7 | 0 | 2 (null, `<>>`) | 2 |
-| 57 | `monotonic` | 11 | 5 | 4 | 2 (null, `[1,2,2]`) | 2 |
-| 64 | `vowelsCount` | 11 | 5 | 3 | 3 | 3 |
-| 66 | `digitSum` | 9 | 4 | 4 | 1 (null) | 1 |
-| 76 | `isSimplePower` | 10 | 7 | 1 | 2 (x=0, x<0) | 2 |
-| 81 | `numericalLetterGrade` | 15 | 10 | 4 | 2 (boundary 3.7, null) | 2 |
-| 86 | `antiShuffle` | 9 | 5 | 3 | 1 (null) | 1 |
-| 87 | `getRow` | 9 | 5 | 2 | 3 | 3 |
-| 93 | `encode` | 9 | 3 | 5 | 2 | 2 |
-| 100 | `makeAPile` | 7 | 3 | 2 | 2 (n=0, n<0) | 2 |
-| 120 | `maximum` | 9 | 5 | 2 | 2 (null, k>len) | 2 |
-| 124 | `validDate` | 15 | 9 | 10 | 0 | 0 |
-| 129 | `minPath` | 9 | 5 | 0 | 3 (null, k=0, k=2) | 3 |
-| 156 | `intToMiniRoman` | 13 | 9 | 2 | 3 (out-of-range) | 2 |
-| 160 | `doAlgebra` | 13 | 4 | 4 | 6 (EC6,7,8,11,12,13) | 6 |
-| **Total** | | **291** | **144** | **108** | **47** | **47** |
+| 13 | `greatestCommonDivisor` | 8 | 3 | 4 | 1 (one is multiple of) | 1 |
+| 14 | `allPrefixes` | 6 | 3 | 2 | 1 (null) | 1 |
+| 16 | `countDistinctCharacters` | 9 | 5 | 3 | 1 (null) | 1 |
+| 18 | `howManyTimes` | 10 | 4 | 5 | 1 (null) | 1 |
+| 19 | `sortNumbers` | 10 | 4 | 5 | 1 (unknown word) | 3 |
+| 23 | `strlen` | 7 | 2 | 2 | 3 (special characters, null, +1) | 3 |
+| 26 | `removeDuplicates` | 9 | 3 | 4 | 2 (all same element, null) | 2 |
+| 27 | `flipCase` | 10 | 2 | 6 | 2 (null, unicode / non-asci) | 2 |
+| 31 | `isPrime` | 10 | 6 | 4 | 0 | 2 |
+| 47 | `median` | 9 | 4 | 3 | 2 (empty, null) | 2 |
+| 49 | `modp` | 10 | 3 | 4 | 3 (p = 0, negative exponent , +1) | 3 |
+| 56 | `correctBracketing` | 9 | 6 | 1 | 2 (extra close at end, null) | 1 |
+| 57 | `monotonic` | 11 | 4 | 6 | 1 (null) | 1 |
+| 64 | `vowelsCount` | 11 | 4 | 4 | 3 (single consonant, empty, +1) | 3 |
+| 66 | `digitSum` | 9 | 3 | 5 | 1 (null) | 1 |
+| 76 | `isSimplePower` | 10 | 7 | 1 | 2 (x = 0, x negative) | 2 |
+| 81 | `numericalLetterGrade` | 15 | 9 | 5 | 1 (null) | 2 |
+| 86 | `antiShuffle` | 9 | 4 | 4 | 1 (null) | 1 |
+| 87 | `getRow` | 9 | 4 | 2 | 3 (searching for x = , single cell grid, , +1) | 3 |
+| 93 | `encode` | 9 | 2 | 5 | 2 (all vowels lowerca, null) | 2 |
+| 100 | `makeAPile` | 7 | 3 | 2 | 2 (n = 0, n negative) | 2 |
+| 120 | `maximum` | 9 | 3 | 4 | 2 (null, k > array length) | 2 |
+| 124 | `validDate` | 15 | 9 | 6 | 0 | 0 |
+| 129 | `minPath` | 9 | 6 | 0 | 3 (k = 2, k = 0, +1) | 3 |
+| 156 | `intToMiniRoman` | 13 | 6 | 3 | 4 (boundary 999, n = 0, +2) | 2 |
+| 160 | `doAlgebra` | 13 | 4 | 3 | 6 (single `*`, single `/` floor d, +4) | 6 |
+| **Total** | | **289** | **126** | **109** | **54** | **57** |
 
-**Coverage after base tests: 144 / 291 = 49%**  
-**Coverage after Step 5 improved tests: 252 / 291 = 87%**  
-**Remaining uncovered (addressed in Step 6): 47 / 291 = 16%**  
-**Total coverage after Step 6: 291 / 291 = 100%**
+**Coverage after base tests: 126 / 289 = 44%**  
+**Coverage after Step 5 improved tests: 235 / 289 = 81%**  
+**Remaining uncovered (addressed in Step 6): 54 / 289 = 19%**  
+**Total coverage after Step 6: 289 / 289 = 100%**
