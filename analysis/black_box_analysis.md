@@ -12,8 +12,9 @@ For each task the following is provided:
 4. **Missing Test Cases**: new `@Test` methods for classes still uncovered after Step 5
 
 Coverage legend:
-- ✅ **Base**: covered by `SolutionTest.java`
+- ✅ **Base**: covered by the original ported `claude()`/`gpt()` methods in `SolutionTest.java`
 - ✅ **Step 5**: covered by `ImprovedByClaudeTest.java` or `ImprovedByGptTest.java`
+- ✅ **Step 6**: covered by a mutation-driven `@Test` method appended to `SolutionTest.java` in Step 6 (identified by a `// EC<n>` marker comment)
 - ❌ : not covered by any existing test
 
 ---
@@ -33,7 +34,7 @@ Coverage legend:
 | EC5 | Valid | Duplicate values (distance = 0) | `[2.0, 2.0], 0.5` | `true` | ✅ Base   |
 | EC6 | Valid | Threshold = 0, distinct values | `[1.0, 2.0], 0.0` | `false` | ✅ Step 5   |
 | EC7 | Valid | Negative numbers close together | `[-1.0, -1.05], 0.1` | `true` | ✅ Step 5   |
-| EC8 | Invalid | Null list | `null, 0.5` | exception | ❌        |
+| EC8 | Invalid | Null list | `null, 0.5` | exception | 🟡 Step 6        |
 
 ### Boundary Condition Table
 
@@ -41,9 +42,8 @@ Coverage legend:
 |----------|-------|-----------------|----|
 | Distance exactly equals threshold | `[1.0, 1.5], 0.5` | `false` | ✅ Step 5 |
 | Distance just below threshold | `[1.0, 1.49], 0.5` | `true` | ✅ Base |
-| Threshold = 0, identical values | `[2.0, 2.0], 0.0` | `false` (not strictly less) | ❌ |
+| Threshold = 0, identical values | `[2.0, 2.0], 0.0` | `false` (not strictly less) | 🟡 Step 6 |
 | List size = 1 | `[5.0], 1.0` | `false` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -64,7 +64,6 @@ void zeroThresholdWithIdenticalValuesReturnsFalse() {
 ```
 
 ---
-
 ## Task 3 : `belowZero(List<Integer> operations)`
 
 **Description:** Returns `true` if the running balance ever goes below zero, starting from zero.
@@ -78,11 +77,11 @@ void zeroThresholdWithIdenticalValuesReturnsFalse() {
 | EC3 | Valid | Empty list | `[]`             | `false` | ✅ Base |
 | EC4 | Valid | All withdrawals, immediately negative | `[-1, -2, -3]`   | `true` | ✅ Step 5 |
 | EC5 | Valid | Balance reaches exactly zero, never below | `[5, -5, 3, -3]` | `false` | ✅ Base |
-| EC6 | Valid | Single positive operation | `[10]`           | `false` |  ❌  |
+| EC6 | Valid | Single positive operation | `[10]`           | `false` |  🟡 Step 6  |
 | EC7 | Valid | Single negative operation | `[-1]`           | `true` | ✅ Step 5 |
 | EC8 | Valid | Balance goes negative at last operation | `[4, -5]`        | `true` | ✅ Base |
 | EC9 | Valid | Single zero operation | `[0]`            | `false` | ✅ Step 5 |
-| EC10 | Invalid | Null list | `null`           | exception | ❌  |
+| EC10 | Invalid | Null list | `null`           | exception | 🟡 Step 6  |
 
 ### Boundary Condition Table
 
@@ -92,7 +91,6 @@ void zeroThresholdWithIdenticalValuesReturnsFalse() {
 | Balance reaches -1 | `[5, -6]` | `true` | ✅ Step 5 |
 | Single element = 0 | `[0]` | `false` | ✅ Step 5 |
 | First operation goes negative | `[-1]` | `true` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -137,7 +135,6 @@ void nullInputThrowsException() {
 | Single element | `[7.0]` | `0.0` | ✅ Step 5 |
 | Two elements | `[1.0, 3.0]` | `1.0` | ✅ Step 5 |
 | All same values | `[4.0, 4.0, 4.0]` | `0.0` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 All equivalence classes and boundaries are covered. No new tests needed.
@@ -159,7 +156,7 @@ All equivalence classes and boundaries are covered. No new tests needed.
 | EC5 | Valid | Single element | `[5]` | `[5]` | ✅ Step 5 |
 | EC6 | Valid | All elements equal | `[3, 3, 3]` | `[3, 3, 3]` | ✅ Step 5 |
 | EC7 | Valid | Negative numbers | `[-5, -3, -4]` | `[-5, -3, -3]` | ✅ Step 5 |
-| EC8 | Invalid | Null list | `null` | exception | ❌ |
+| EC8 | Invalid | Null list | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -171,7 +168,6 @@ All equivalence classes and boundaries are covered. No new tests needed.
 | All negatives | `[-3, -1, -2]`            | `[-3, -1, -1]` | ✅ Step 5 |
 | Integer Minimum Value | `[Integer.MIN_VALUE, 0]`  |  `[Integer.MIN_VALUE, 0]` |  ✅ Step 5 |
 | Integer Maximum Value |     `[1, Integer.MAX_VALUE]` |  `[1, Integer.MAX_VALUE]` | ✅ Step 5        |
-
 ### Missing Test Cases
 
 ```java
@@ -196,7 +192,7 @@ void nullInputThrowsException() {
 |----|------|-------------|---------------|-----------------|----|
 | EC1 | Valid | GCD > 1, both composite | `(10, 15)` | `5` | ✅ Base |
 | EC2 | Valid | GCD = 1 (coprime) | `(3, 7)` | `1` | ✅ Base |
-| EC3 | Valid | One is multiple of the other | `(4, 8)` | `4` | ❌ |
+| EC3 | Valid | One is multiple of the other | `(4, 8)` | `4` | 🟡 Step 6 |
 | EC4 | Valid | Both equal | `(8, 8)` | `8` | ✅ Step 5 |
 | EC5 | Valid | One operand = 1 | `(1, 17)` | `1` | ✅ Step 5 |
 | EC6 | Valid | Large numbers | `(144, 60)` | `12` | ✅ Base |
@@ -212,7 +208,6 @@ void nullInputThrowsException() {
 | a is multiple of b | `(12, 4)` | `4`             | ❌ |
 | b = 0              | `(9, 0)`  | `9`             | ✅ Step 5 |
 | a = 0 b = 0        | `(0, 0)`  | `0`             | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -240,7 +235,7 @@ void gcdWhenOneIsMultipleOfOther() {
 | EC3 | Valid | Single character | `"x"` | `["x"]` | ✅ Step 5 |
 | EC4 | Valid | All same characters | `"aaa"` | `["a","aa","aaa"]` | ✅ Base |
 | EC5 | Valid | String with spaces | `"a b"` | `["a","a ","a b"]` | ✅ Step 5 |
-| EC6 | Invalid | Null input | `null` | exception | ❌ |
+| EC6 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -249,7 +244,6 @@ void gcdWhenOneIsMultipleOfOther() {
 | Length = 0 | `""` | `[]`                | ✅ Base   |
 | Length = 1 | `"x"` | `["x"]`             | ✅ Step 5   |
 | Length = 3 | `"aaa"` | `["a","aa", "aaa"]` | ✅ Base    |
-
 ### Missing Test Cases
 
 ```java
@@ -280,7 +274,7 @@ void nullInputThrowsException() {
 | EC6 | Valid   | String with spaces | `"a b"` | `2`             | ✅ Base  |
 | EC7 | Valid   | Digits and symbols | `"1!2@3#"` | `6`             | ✅ Step 5 |
 | EC8 | Valid   | Unicode / Non-ASCII characters | `äöüÄÖÜ` | 3               | ✅ Step 5       |
-| EC9 | Invalid |    Null input   |    `null`  | exception       |    ❌    |
+| EC9 | Invalid |    Null input   |    `null`  | exception       |    🟡 Step 6    |
 
 ### Boundary Condition Table
 
@@ -289,11 +283,10 @@ void nullInputThrowsException() {
 | Length = 0 | `""` | `0` | ✅ Base |
 | Length = 1 | `"z"` | `1` | ✅ Step 5 |
 | All same letter different case | `"aA"` | `1` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
-// EC8: null input
+// EC9: null input
 @Test
 void nullInputThrowsException() {
     var s = new humaneval.claude.task_16.Solution();
@@ -320,7 +313,7 @@ void nullInputThrowsException() {
 | EC6 | Valid | Substring equals string | `"abc", "abc"` | `1` | ✅ Step 5   |
 | EC7 | Valid | Substring longer than string | `"ab", "abcd"` | `0` | ✅ Step 5   |
 | EC8 | Valid | Multiple non-overlapping matches | `"xyxyxyx", "x"` | `4` | ✅ Base   |
-| EC9 | Invalid | Null main string | `null, "x"` | exception | ❌        |
+| EC9 | Invalid | Null main string | `null, "x"` | exception | 🟡 Step 6        |
 | EC10 | Invalid | Null substring | `"abc", null` | `0` (GPT impl.) | ✅ Step 5   |
 
 ### Boundary Condition Table
@@ -331,9 +324,8 @@ void nullInputThrowsException() {
 | Substring length = 0         | `"abc", ""`    | `0`             | ✅ Step 5 |
 | Substring = string           | `"abc", "abc"` | `1`             | ✅ Step 5 |
 | Substring longer than string | `"ab", "abcd"` | `0`             | ✅ Step 5 |
-| Full overlap sequence        | `"aaaa", "aa"` | `3`             | ✅ Step 5 |
+| Full overlap sequence | `"aaaa", "aa"` | `3` | ✅ Base |
 | Both length = 0              | `"", ""`         | 0               |      ✅ Step 5  |
-
 ### Missing Test Cases
 
 ```java
@@ -364,18 +356,17 @@ void nullStringThrowsException() {
 | EC6  | Valid   | Duplicate words             | `"two one three two one"` | `"one one two two three"`          | ✅ Step 5 |
 | EC7  | Valid   | Two words reversed          | `"nine zero"` | `"zero nine"`                      | ✅ Step 5 |
 | EC8  | Invalid | Null input                  | `null` | `""` (Claude impl.)                | ✅ Step 5 |
-| EC9  | Invalid | Unknown word                | `"ten"` | exception/undefined                | ❌ |
+| EC9  | Invalid | Unknown word                | `"ten"` | exception/undefined                | 🟡 Step 6 |
 | EC10 | Valid     | Blank / whitespace-only string |     `" \t\n "`    | `""`     | ✅ Step 5  |
 
 ### Boundary Condition Table
 
 | Boundary | Input | Expected Output | Coverage |
 |----------|-------|-----------------|--|
-| Single word "zero" | `"zero"` | `"zero"` | ❌ |
-| Single word "nine" | `"nine"` | `"nine"` | ❌ |
+| Single word "zero" | `"zero"` | `"zero"` | 🟡 Step 6 |
+| Single word "nine" | `"nine"` | `"nine"` | 🟡 Step 6 |
 | Two words reversed | `"nine zero"` | `"zero nine"` | ✅ Step 5 |
 | Null input | `null` | `""` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -416,9 +407,9 @@ void singleHighestNumeralReturnsItself() {
 | EC2 | Valid   | Empty string | `""`          | `0`             | ✅ Base   |
 | EC3 | Valid   | Single character | `"x"`         | `1`             | ✅ Base   |
 | EC4 | Valid   | String with spaces | `"a b c"`     | `5`             | ✅ Step 5   |
-| EC5 | Valid   | Special characters | `"ab!"`       | `3`             | ❌        |
-| EC6 | Invalid | Null input | `null`        | exception       | ❌        |
-| EC7 | Valid       |      Unicode/Emoji (Surrogate Pair)      |        `"😀"`       | `2`             |    ❌      |
+| EC5 | Valid   | Special characters | `"ab!"`       | `3`             | 🟡 Step 6        |
+| EC6 | Invalid | Null input | `null`        | exception       | 🟡 Step 6        |
+| EC7 | Valid       |      Unicode/Emoji (Surrogate Pair)      |        `"😀"`       | `2`             |    🟡 Step 6      |
 
 ### Boundary Condition Table
 
@@ -427,7 +418,6 @@ void singleHighestNumeralReturnsItself() {
 | Length = 0 | `""` | `0` | ✅ Base |
 | Length = 1 | `"x"` | `1` | ✅ Base |
 | Length = 9 | `"asdasnakj"` | `9` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -469,10 +459,10 @@ void surrogatePairsReturnTwoCodeUnits() {
 | EC3 | Valid | Empty list | `[]` | `[]` | ✅ Base |
 | EC4 | Valid | All duplicates (result empty) | `[1, 1, 2, 2]` | `[]` | ✅ Step 5 |
 | EC5 | Valid | Single element | `[42]` | `[42]` | ✅ Step 5 |
-| EC6 | Valid | All same element | `[5, 5, 5]` | `[]` | ❌ |
+| EC6 | Valid | All same element | `[5, 5, 5]` | `[]` | 🟡 Step 6 |
 | EC7 | Valid | Element appears 3+ times | `[1, 1, 1, 3]` | `[3]` | ✅ Step 5 |
 | EC8 | Valid | Negative numbers | `[-1, -1, -3]` | `[-3]` | ✅ Step 5 |
-| EC9 | Invalid | Null list | `null` | exception | ❌ |
+| EC9 | Invalid | Null list | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -481,7 +471,6 @@ void surrogatePairsReturnTwoCodeUnits() {
 | Single element | `[42]` | `[42]` | ✅ Step 5 |
 | All duplicates → empty result | `[1, 1, 2, 2]` | `[]` | ✅ Step 5 |
 | One unique among duplicates | `[1, 2, 2]` | `[1]` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -520,8 +509,8 @@ void nullInputThrowsException() {
 | EC6  | Valid   | Single lowercase | `"a"` | `"A"` | ✅ Step 5 |
 | EC7  | Valid   | Single uppercase | `"A"` | `"a"` | ✅ Step 5 |
 | EC8  | Valid   | Digits mixed with letters | `"a1B"` | `"A1b"` | ✅ Step 5 |
-| EC9  | Invalid | Null input | `null` | exception | ❌ |
-| EC10 | Valid       |     Unicode / Non-ASCII characters       |   `"üĞş"`     |   `"ÜğŞ"`        | ❌  |
+| EC9  | Invalid | Null input | `null` | exception | 🟡 Step 6 |
+| EC10 | Valid       |     Unicode / Non-ASCII characters       |   `"üĞş"`     |   `"ÜğŞ"`        | 🟡 Step 6  |
 
 ### Boundary Condition Table
 
@@ -531,7 +520,6 @@ void nullInputThrowsException() {
 | Length = 1 lowercase | `"a"` | `"A"` | ✅ Step 5 |
 | Length = 1 uppercase | `"A"` | `"a"` | ✅ Step 5 |
 | Only non-letter chars | `"123!"` | `"123!"` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -582,9 +570,8 @@ void flipsCaseForUnicodeCharacters() {
 | n = 1    | `1`                 | `false`         | ✅ Base |
 | n = 2    | `2`                 | `true`          | ✅ Step 5 |
 | n = 3    | `3`                 | `true`          | ✅ Step 5 |
-| n = -1   | `-1`                | `false`         | ❌ |
-|   Upper limit of int (n = Integer.MAX_VALUE)       | `Integer.MAX_VALUE` | `true`           | ❌  |
-
+| n = -1   | `-1`                | `false`         | 🟡 Step 6 |
+|   Upper limit of int (n = Integer.MAX_VALUE)       | `Integer.MAX_VALUE` | `true`           | 🟡 Step 6  |
 ### Missing Test Cases
 
 ```java
@@ -619,8 +606,8 @@ void integerMaxValueIsPrimeAndDoesNotOverflow() {
 | EC5 | Valid | All same elements | `[7, 7, 7, 7, 7]`       | `7.0`           | ✅ Step 5   |
 | EC6 | Valid | All negative numbers | `[-1, -2, -3, -4, -5]`  | `-3.0`          | ✅ Step 5   |
 | EC7 | Valid | Already sorted | `[1, 2, 3, 4, 5, 6, 7]` | `4.0`           | ✅ Step 5   |
-| EC8 | Invalid | Empty list | `[]`                    | exception       | ❌        |
-| EC9 | Invalid | Null list | `null`                  | exception       | ❌        |
+| EC8 | Invalid | Empty list | `[]`                    | exception       | 🟡 Step 6        |
+| EC9 | Invalid | Null list | `null`                  | exception       | 🟡 Step 6        |
 
 ### Boundary Condition Table
 
@@ -630,7 +617,6 @@ void integerMaxValueIsPrimeAndDoesNotOverflow() {
 | Two elements | `[6, 5]`                    | `5.5`           | ✅ Base   |
 | Even count, large spread | `[-10, 4, 6, 1000, 10, 20]` | `8.0`           | ✅ Base   |
 |  Integer Limits (Overflow Risk)      |    `[MAX_VALUE, MAX_VALUE]`  |      `2147483647.0`           |   ✅ Step 5       |
-
 ### Missing Test Cases
 
 ```java
@@ -668,9 +654,9 @@ void nullListThrowsException() {
 | EC5 | Valid   | n = 1                      | `(1, 7)`      | `2` | ✅ Step 5 |
 | EC6 | Valid   | p = 1 (result always 0)    | `(5, 1)`      | `0` | ✅ Step 5 |
 | EC7 | Valid   | Result = 0 (exact divisor) | `(10, 1024)`  | `0` | ✅ Step 5 |
-| EC8 | Invalid | p = 0                      | `(3, 0)`      | exception (div by zero) | ❌ |
-| EC9 | Invalid | Negative exponent (n < 0)  |    `(-3, 5)`           |   undefined/exception      |  ❌ |
-| EC10 | Invalid |         Negative modulus (p < 0)                   |         `(3, -5)`               |    undefined/exception                        |  ❌  |
+| EC8 | Invalid | p = 0                      | `(3, 0)`      | exception (div by zero) | 🟡 Step 6 |
+| EC9 | Invalid | Negative exponent (n < 0)  |    `(-3, 5)`           |   undefined/exception      |  🟡 Step 6 |
+| EC10 | Invalid |         Negative modulus (p < 0)                   |         `(3, -5)`               |    undefined/exception                        |  🟡 Step 6  |
 
 ### Boundary Condition Table
 
@@ -680,7 +666,6 @@ void nullListThrowsException() {
 | n = 1 | `(1, 7)`   | `2` | ✅ Step 5 |
 | p = 1 | `(5, 1)`   | `0` | ✅ Step 5 |
 | p = 2 | `(1, 2)`   | `0` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -725,9 +710,9 @@ void negativeModulusThrowsException() {
 | EC4 | Valid | Opens without close | `"<"` | `false` | ✅ Base |
 | EC5 | Valid | Closes without open | `">"` | `false` | ✅ Base |
 | EC6 | Valid | Wrong order `><` | `"><<>"` | `false` | ✅ Base |
-| EC7 | Valid | Extra close at end | `"<>>"` | `false` | ❌ |
+| EC7 | Valid | Extra close at end | `"<>>"` | `false` | 🟡 Step 6 |
 | EC8 | Valid | Extra open at end | `"<<>"` | `true→false` | ✅ Base |
-| EC9 | Invalid | Null input | `null` | exception | ❌ |
+| EC9 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -737,7 +722,6 @@ void negativeModulusThrowsException() {
 | Single `<` | `"<"` | `false` | ✅ Base |
 | Single `>` | `">"` | `false` | ✅ Base |
 | Single pair `<>` | `"<>"` | `true` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -747,6 +731,13 @@ void nullInputThrowsException() {
     var s = new humaneval.claude.task_56.Solution();
     assertThrows(NullPointerException.class,
         () -> s.correctBracketing(null));
+}
+
+// EC7: Extra close at end — Replace s with Mutate(s): append extra '>'
+@Test
+void extraCloseAtEndReturnsFalse() {
+    var s = new humaneval.claude.task_56.Solution();
+    assertFalse(s.correctBracketing("<>>"));
 }
 ```
 
@@ -770,7 +761,7 @@ void nullInputThrowsException() {
 | EC8 | Valid | Two elements equal | `[5, 5]` | `true` | ✅ Step 5 |
 | EC9 | Valid | Plateau then increase | `[1, 1, 2, 3]` | `true` | ✅ Step 5 |
 | EC10 | Valid | Decrease then increase | `[5,3,1,2]` | `false` | ✅ Step 5 |
-| EC11 | Invalid | Null list | `null` | exception | ❌ |
+| EC11 | Invalid | Null list | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -779,8 +770,7 @@ void nullInputThrowsException() {
 | Single element | `[5]` | `true` | ✅ Step 5 |
 | Empty list | `[]` | `true` | ✅ Step 5 |
 | Two equal elements | `[3, 3]` | `true` | ✅ Step 5 |
-| Increases then plateau | `[1, 2, 2]` | `true` | ❌ |
-
+| Increases then plateau | `[1, 2, 2]` | `true` | 🟡 Step 6 |
 ### Missing Test Cases
 
 ```java
@@ -794,7 +784,6 @@ void nullInputThrowsException() {
 ```
 
 ---
-
 ## Task 64 : `vowelsCount(String s)`
 
 **Description:** Returns the number of vowels (a, e, i, o, u, case-insensitive). 'y'/'Y' counts only when it is the last character.
@@ -811,9 +800,9 @@ void nullInputThrowsException() {
 | EC6 | Valid | No vowels | `"bcdfg"` | `0` | ✅ Step 5 |
 | EC7 | Valid | Single vowel | `"a"` | `1` | ✅ Step 5 |
 | EC8 | Valid | Single 'y' (at end, counts) | `"y"` | `1` | ✅ Step 5 |
-| EC9 | Valid | Single consonant | `"b"` | `0` | ❌ |
-| EC10 | Invalid | Empty string | `""` | 0 or exception (implementation-dependent) | ❌ |
-| EC11 | Invalid | Null input | `null` | exception | ❌ |
+| EC9 | Valid | Single consonant | `"b"` | `0` | 🟡 Step 6 |
+| EC10 | Invalid | Empty string | `""` | 0 or exception (implementation-dependent) | 🟡 Step 6 |
+| EC11 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -821,10 +810,9 @@ void nullInputThrowsException() {
 |----------|-------|-----------------|----------|
 | Length = 1, vowel | `"a"` | `1` | ✅ Step 5 |
 | Length = 1, 'y' | `"y"` | `1` | ✅ Step 5 |
-| Length = 1, consonant | `"b"` | `0` | ❌ |
+| Length = 1, consonant | `"b"` | `0` | 🟡 Step 6 |
 | 'y' at position 0, not last | `"yba"` | `1` | ✅ Step 5 |
 | 'y' at last position | `"key"` | `2` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -870,7 +858,7 @@ void nullInputThrowsException() {
 | EC6 | Valid | String with spaces and punctuation | `" How are yOu?"` | `151` | ✅ Base |
 | EC7 | Valid | Only digits | `"12345!?."` | `0` | ✅ Step 5 |
 | EC8 | Valid | Single uppercase 'Z' | `"Z"` | `90` | ✅ Step 5 |
-| EC9 | Invalid | Null input | `null` | exception | ❌ |
+| EC9 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -880,7 +868,6 @@ void nullInputThrowsException() {
 | Single 'A' (ASCII 65) | `"A"` | `65` | ✅ Step 5 |
 | Single 'Z' (ASCII 90) | `"Z"` | `90` | ✅ Step 5 |
 | No uppercase chars | `"abcdef"` | `0` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -911,8 +898,8 @@ void nullInputThrowsException() {
 | EC6 | Valid | x = n (n^1) | `(5, 5)` | `true` | ✅ Step 5 |
 | EC7 | Valid | Large non-power | `(143214, 16)` | `false` | ✅ Base |
 | EC8 | Valid | x = n^2 | `(4, 2)` | `true` | ✅ Base |
-| EC9 | Valid | x = 0 | `(0, 2)` | `false` | ❌ |
-| EC10 | Invalid | x negative | `(-4, 2)` | `false` / undefined | ❌ |
+| EC9 | Valid | x = 0 | `(0, 2)` | `false` | 🟡 Step 6 |
+| EC10 | Invalid | x negative | `(-4, 2)` | `false` / undefined | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -921,9 +908,8 @@ void nullInputThrowsException() {
 | x = 1, any n | `(1, 12)` | `true` | ✅ Base |
 | n = 1, x = 1 | `(1, 1)` | `true` | ✅ Base |
 | n = 1, x = 2 | `(2, 1)` | `false` | ✅ Base |
-| x = n exactly | `(5, 5)` | `true` | ❌ |
-| x = 0 | `(0, 2)` | `false` | ❌ |
-
+| x = n exactly | `(5, 5)` | `true` | ✅ Step 5 |
+| x = 0 | `(0, 2)` | `false` | 🟡 Step 6 |
 ### Missing Test Cases
 
 ```java
@@ -967,7 +953,7 @@ void xNegativeReturnsFalse() {
 | EC12 | Valid | GPA in (0.0, 0.7] → D- | `[0.5]` | `["D-"]` | ✅ Base |
 | EC13 | Valid | GPA = 0.0 → E | `[0.0]` | `["E"]` | ✅ Base |
 | EC14 | Valid | Empty list | `[]` | `[]` | ✅ Step 5 |
-| EC15 | Invalid | Null list | `null` | exception | ❌ |
+| EC15 | Invalid | Null list | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -975,10 +961,9 @@ void xNegativeReturnsFalse() {
 |----------|-------|-----------------|----------|
 | Exactly 4.0 | `[4.0]` | `["A+"]` | ✅ Base |
 | Just below 4.0 (3.71) | `[3.71]` | `["A"]` | ✅ Step 5 |
-| Exactly 3.7 → A- | `[3.7]` | `["A-"]` | ❌ |
+| Exactly 3.7 → A- | `[3.7]` | `["A-"]` | 🟡 Step 6 |
 | Exactly 0.0 → E | `[0.0]` | `["E"]` | ✅ Base |
 | Just above 0.0 (0.01) | `[0.01]` | `["D-"]` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -999,7 +984,6 @@ void exactlyThreePointSevenIsAMinus() {
 ```
 
 ---
-
 ## Task 86 : `antiShuffle(String s)`
 
 **Description:** Sorts the characters of each word in ascending ASCII order, preserving word order and spaces.
@@ -1016,7 +1000,7 @@ void exactlyThreePointSevenIsAMinus() {
 | EC6 | Valid | Word with digits | `"53124"` | `"12345"` | ✅ Step 5 |
 | EC7 | Valid | Multiple consecutive spaces | `"cba  fed"` | `"abc  def"` | ✅ Step 5 |
 | EC8 | Valid | Leading/trailing spaces | `" cba fed "` | `" abc def "` | ✅ Step 5 |
-| EC9 | Invalid | Null input | `null` | exception | ❌ |
+| EC9 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1025,7 +1009,6 @@ void exactlyThreePointSevenIsAMinus() {
 | Empty string | `""` | `""` | ✅ Base |
 | Single character | `"a"` | `"a"` | ✅ Step 5 |
 | Only spaces | `"   "` | `"   "` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -1053,20 +1036,19 @@ void nullInputThrowsException() {
 | EC3 | Valid | Value not found | `[[1]], 2` | `[]` | ✅ Base |
 | EC4 | Valid | Multiple hits in one row | `[[1,1,1]], 1` | `[[0,2],[0,1],[0,0]]` | ✅ Step 5 |
 | EC5 | Valid | Empty inner rows | `[[],[1],[1,2,3]], 3` | `[[2,2]]` | ✅ Base |
-| EC6 | Valid | Searching for x = 0 | `[[0,1],[2,0]], 0` | `[[0,0],[1,1]]` | ❌ |
-| EC7 | Valid | Single cell grid, match | `[[5]], 5` | `[[0,0]]` | ❌ |
+| EC6 | Valid | Searching for x = 0 | `[[0,1],[2,0]], 0` | `[[0,0],[1,1]]` | 🟡 Step 6 |
+| EC7 | Valid | Single cell grid, match | `[[5]], 5` | `[[0,0]]` | 🟡 Step 6 |
 | EC8 | Valid | Negative target value | `[[-1,2],[-1,3]], -1` | `[[0,1],[0,0],[1,1],[1,0]]` | ✅ Step 5 |
-| EC9 | Invalid | Null outer list | `null, 1` | exception | ❌ |
+| EC9 | Invalid | Null outer list | `null, 1` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
 | Boundary | Input | Expected Output | Coverage |
 |----------|-------|-----------------|----------|
 | Empty grid | `[], 1` | `[]` | ✅ Base |
-| Single cell, match | `[[5]], 5` | `[[0,0]]` | ❌ |
+| Single cell, match | `[[5]], 5` | `[[0,0]]` | 🟡 Step 6 |
 | Single cell, no match | `[[3]], 5` | `[]` | ✅ Base |
 | Multiple hits in single row | `[[1,1,1]], 1` | `[[0,2],[0,1],[0,0]]` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -1114,8 +1096,8 @@ void nullOuterListThrowsException() {
 | EC5 | Valid | Single lowercase vowel 'e' | `"e"` | `"G"` | ✅ Step 5 |
 | EC6 | Valid | Single uppercase vowel 'A' | `"A"` | `"c"` | ✅ Step 5 |
 | EC7 | Valid | Empty string | `""` | `""` | ✅ Step 5 |
-| EC8 | Valid | All vowels lowercase | `"aeiou"` | `"CGKQW"` | ❌ |
-| EC9 | Invalid | Null input | `null` | exception | ❌ |
+| EC8 | Valid | All vowels lowercase | `"aeiou"` | `"CGKQW"` | 🟡 Step 6 |
+| EC9 | Invalid | Null input | `null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1125,7 +1107,6 @@ void nullOuterListThrowsException() {
 | Single uppercase consonant | `"T"` | `"t"` | ✅ Base |
 | No vowels in string | `"bcdfg"` | `"BCDFG"` | ✅ Step 5 |
 | Empty string | `""` | `""` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -1160,8 +1141,8 @@ void nullInputThrowsException() {
 | EC3 | Valid | n = 1 | `1` | `[1]` | ✅ Step 5 |
 | EC4 | Valid | n = 2 | `2` | `[2, 4]` | ✅ Step 5 |
 | EC5 | Valid | Large n | `8` | `[8,10,12,14,16,18,20,22]` | ✅ Base |
-| EC6 | Invalid | n = 0 | `0` | `[]` / undefined | ❌ |
-| EC7 | Invalid | n negative | `-1` | `[]` / undefined | ❌ |
+| EC6 | Invalid | n = 0 | `0` | `[]` / undefined | 🟡 Step 6 |
+| EC7 | Invalid | n negative | `-1` | `[]` / undefined | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1170,7 +1151,6 @@ void nullInputThrowsException() {
 | n = 1 | `1` | `[1]` | ✅ Step 5 |
 | n = 2 | `2` | `[2, 4]` | ✅ Step 5 |
 | n odd minimum | `3` | `[3, 5, 7]` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -1206,8 +1186,8 @@ void nNegativeReturnsEmpty() {
 | EC5 | Valid | Duplicates preserved | `([4,-4,4], 2)` | `[4,4]` | ✅ Step 5 |
 | EC6 | Valid | All negative numbers | `([-5,-3,-8], 2)` | `[-5,-3]` | ✅ Step 5 |
 | EC7 | Valid | Single element, k=1 | `([7], 1)` | `[7]` | ✅ Step 5 |
-| EC8 | Invalid | Null list | `null, 2` | exception | ❌ |
-| EC9 | Invalid | k > array length | `([1,2], 5)` | exception | ❌ |
+| EC8 | Invalid | Null list | `null, 2` | exception | 🟡 Step 6 |
+| EC9 | Invalid | k > array length | `([1,2], 5)` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1217,7 +1197,6 @@ void nNegativeReturnsEmpty() {
 | k = 1 | `([1,0,5,-7], 1)` | `[5]` | ✅ Base |
 | k = array length | `([-3,-4,5], 3)` | `[-4,-3,5]` | ✅ Base |
 | Single element | `([7], 1)` | `[7]` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -1274,7 +1253,6 @@ void kLargerThanArrayThrowsException() {
 | Day = 1 (minimum) | `"01-01-2007"` | `true` | ✅ Base |
 | Day = 29 for February | `"02-29-2020"` | `true` | ✅ Step 5 |
 | Day = 30 for February | `"02-30-2020"` | `false` | ✅ Step 5 |
-
 ### Missing Test Cases
 All equivalence classes and boundaries are covered. No new tests needed.
 
@@ -1293,11 +1271,11 @@ All equivalence classes and boundaries are covered. No new tests needed.
 | EC2 | Valid | k = 1 | `[[5,9,3],[4,1,6],[7,8,2]], 1` | `[1]` | ✅ Base |
 | EC3 | Valid | 2×2 grid, k=10 | `[[1,2],[3,4]], 10` | `[1,2,1,2,...]` | ✅ Base |
 | EC4 | Valid | k even | `[[1,2,3,4],...], 4` | `[1,2,1,2]` | ✅ Base |
-| EC5 | Valid | k = 2 | `[[1,2],[3,4]], 2` | `[1,2]` | ❌ |
+| EC5 | Valid | k = 2 | `[[1,2],[3,4]], 2` | `[1,2]` | 🟡 Step 6 |
 | EC6 | Valid | 1 at corner (fewer neighbors) | various | alternating | ✅ Base |
 | EC7 | Valid | k large odd | various | alternating | ✅ Base |
-| EC8 | Invalid | k = 0 | `[[1,2],[3,4]], 0` | `[]` | ❌ |
-| EC9 | Invalid | Null grid | `null, 3` | exception | ❌ |
+| EC8 | Invalid | k = 0 | `[[1,2],[3,4]], 0` | `[]` | 🟡 Step 6 |
+| EC9 | Invalid | Null grid | `null, 3` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1306,7 +1284,6 @@ All equivalence classes and boundaries are covered. No new tests needed.
 | k = 1 | any valid grid | `[1]` | ✅ Base |
 | k = 2 | `[[1,2],[3,4]]` | `[1,2]` | ❌ |
 | k = 0 | `[[1,2],[3,4]]` | `[]` | ❌ |
-
 ### Missing Test Cases
 
 ```java
@@ -1355,10 +1332,10 @@ void nullGridThrowsException() {
 | EC7 | Valid | Subtractive 90 | `90` | `"xc"` | ✅ Base |
 | EC8 | Valid | Subtractive 400 | `400` | `"cd"` | ✅ Step 5 |
 | EC9 | Valid | Subtractive 900 | `900` | `"cm"` | ✅ Base |
-| EC10 | Valid | Boundary 999 | `999` | `"cmxcix"` | ❌ |
-| EC11 | Invalid | n = 0 | `0` | undefined/infinite loop | ❌ |
-| EC12 | Invalid | n > 1000 | `1001` | undefined | ❌ |
-| EC13 | Invalid | n negative | `-1` | undefined | ❌ |
+| EC10 | Valid | Boundary 999 | `999` | `"cmxcix"` | 🟡 Step 6 |
+| EC11 | Invalid | n = 0 | `0` | undefined/infinite loop | 🟡 Step 6 |
+| EC12 | Invalid | n > 1000 | `1001` | undefined | 🟡 Step 6 |
+| EC13 | Invalid | n negative | `-1` | undefined | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
@@ -1366,10 +1343,9 @@ void nullGridThrowsException() {
 |----------|-------|-----------------|----------|
 | Minimum (1) | `1` | `"i"` | ✅ Base |
 | Maximum (1000) | `1000` | `"m"` | ✅ Base |
-| Just below max (999) | `999` | `"cmxcix"` | ❌ |
+| Just below max (999) | `999` | `"cmxcix"` | 🟡 Step 6 |
 | Subtractive 4 | `4` | `"iv"` | ✅ Base |
 | Subtractive 40 | `40` | `"xl"` | ✅ Step 5 |
-
 ### Missing Test Cases
 
 ```java
@@ -1389,6 +1365,20 @@ void aboveMaximumProducesExtraSymbols() {
     // 1001 = "mi" : documents behavior outside spec
     assertEquals("mi", s.intToMiniRoman(1001));
 }
+
+// EC10: boundary 999 — Returns x-1 mutation on max: complex subtractive form just below 1000
+@Test
+void nineHundredNinetyNine() {
+    var s = new humaneval.claude.task_156.Solution();
+    assertEquals("cmxcix", s.intToMiniRoman(999));
+}
+
+// EC13: n negative — Returns x-1 mutation below minimum; loop never executes, returns empty
+@Test
+void negativeInputReturnsEmpty() {
+    var s = new humaneval.claude.task_156.Solution();
+    assertEquals("", s.intToMiniRoman(-1));
+}
 ```
 
 ---
@@ -1406,24 +1396,23 @@ void aboveMaximumProducesExtraSymbols() {
 | EC3 | Valid | Division only | `(["/","*"], [7,3,4])` | `8` | ✅ Base |
 | EC4 | Valid | Single `+` | `(["+"], [3,4])` | `7` | ✅ Step 5 |
 | EC5 | Valid | Single `-` | `(["-"], [3,10])` | `-7` | ✅ Step 5 |
-| EC6 | Valid | Single `*` | `(["*"], [3,4])` | `12` | ❌ |
-| EC7 | Valid | Single `/` floor div | `(["/"], [10,3])` | `3` | ❌ |
-| EC8 | Valid | Single `**` | `(["**"], [2,10])` | `1024` | ❌ |
+| EC6 | Valid | Single `*` | `(["*"], [3,4])` | `12` | 🟡 Step 6 |
+| EC7 | Valid | Single `/` floor div | `(["/"], [10,3])` | `3` | 🟡 Step 6 |
+| EC8 | Valid | Single `**` | `(["**"], [2,10])` | `1024` | 🟡 Step 6 |
 | EC9 | Valid | Operands include 0 | `(["+","**"], [2,5,0])` | `3` | ✅ Step 5 |
 | EC10 | Valid | Right-assoc `**` chain | `(["+","**","**"], [7,5,3,2])` | `1953132` | ✅ Base |
-| EC11 | Invalid | Unsupported operator | `(["^"], [2,3])` | exception | ❌ |
-| EC12 | Invalid | Null operator list | `null, [1,2]` | exception | ❌ |
-| EC13 | Invalid | Null operand list | `["+"], null` | exception | ❌ |
+| EC11 | Invalid | Unsupported operator | `(["^"], [2,3])` | exception | 🟡 Step 6 |
+| EC12 | Invalid | Null operator list | `null, [1,2]` | exception | 🟡 Step 6 |
+| EC13 | Invalid | Null operand list | `["+"], null` | exception | 🟡 Step 6 |
 
 ### Boundary Condition Table
 
 | Boundary | Input | Expected Output | Coverage |
 |----------|-------|-----------------|----------|
 | Single `+` | `(["+"], [3,4])` | `7` | ✅ Step 5 |
-| Single `**` | `(["**"], [2,10])` | `1024` | ❌ |
+| Single `**` | `(["**"], [2,10])` | `1024` | 🟡 Step 6 |
 | Floor division negative | `(["-","/"], [1,10,3])` | `-2` | ✅ Step 5 |
 | Right-assoc `**` | `(["+","**","**"], [7,5,3,2])` | `1953132` | ✅ Base |
-
 ### Missing Test Cases
 
 ```java
@@ -1476,41 +1465,41 @@ void nullOperandListThrowsException() {
 ---
 ## Summary Table
 
-| Task | Method | Total ECs | ✅ Base | ✅ Step 5 | ❌ Still uncovered | New Tests |
-|------|--------|-----------|---------|---------|-------------------|-----------|
-| 0 | `hasCloseElements` | 8 | 3 | 4 | 1 (null) | 2 |
-| 3 | `belowZero` | 10 | 5 | 3 | 2 (single positive op, null) | 2 |
-| 4 | `meanAbsoluteDeviation` | 7 | 1 | 6 | 0 | 0 |
-| 9 | `rollingMax` | 8 | 4 | 3 | 1 (null) | 1 |
-| 13 | `greatestCommonDivisor` | 8 | 3 | 4 | 1 (one is multiple of) | 1 |
-| 14 | `allPrefixes` | 6 | 3 | 2 | 1 (null) | 1 |
-| 16 | `countDistinctCharacters` | 9 | 5 | 3 | 1 (null) | 1 |
-| 18 | `howManyTimes` | 10 | 4 | 5 | 1 (null) | 1 |
-| 19 | `sortNumbers` | 10 | 4 | 5 | 1 (unknown word) | 3 |
-| 23 | `strlen` | 7 | 2 | 2 | 3 (special characters, null, +1) | 3 |
-| 26 | `removeDuplicates` | 9 | 3 | 4 | 2 (all same element, null) | 2 |
-| 27 | `flipCase` | 10 | 2 | 6 | 2 (null, unicode / non-asci) | 2 |
-| 31 | `isPrime` | 10 | 6 | 4 | 0 | 2 |
-| 47 | `median` | 9 | 4 | 3 | 2 (empty, null) | 2 |
-| 49 | `modp` | 10 | 3 | 4 | 3 (p = 0, negative exponent , +1) | 3 |
-| 56 | `correctBracketing` | 9 | 6 | 1 | 2 (extra close at end, null) | 1 |
-| 57 | `monotonic` | 11 | 4 | 6 | 1 (null) | 1 |
-| 64 | `vowelsCount` | 11 | 4 | 4 | 3 (single consonant, empty, +1) | 3 |
-| 66 | `digitSum` | 9 | 3 | 5 | 1 (null) | 1 |
-| 76 | `isSimplePower` | 10 | 7 | 1 | 2 (x = 0, x negative) | 2 |
-| 81 | `numericalLetterGrade` | 15 | 9 | 5 | 1 (null) | 2 |
-| 86 | `antiShuffle` | 9 | 4 | 4 | 1 (null) | 1 |
-| 87 | `getRow` | 9 | 4 | 2 | 3 (searching for x = , single cell grid, , +1) | 3 |
-| 93 | `encode` | 9 | 2 | 5 | 2 (all vowels lowerca, null) | 2 |
-| 100 | `makeAPile` | 7 | 3 | 2 | 2 (n = 0, n negative) | 2 |
-| 120 | `maximum` | 9 | 3 | 4 | 2 (null, k > array length) | 2 |
-| 124 | `validDate` | 15 | 9 | 6 | 0 | 0 |
-| 129 | `minPath` | 9 | 6 | 0 | 3 (k = 2, k = 0, +1) | 3 |
-| 156 | `intToMiniRoman` | 13 | 6 | 3 | 4 (boundary 999, n = 0, +2) | 2 |
-| 160 | `doAlgebra` | 13 | 4 | 3 | 6 (single `*`, single `/` floor d, +4) | 6 |
-| **Total** | | **289** | **126** | **109** | **54** | **57** |
+| Task | Method | Total ECs | ✅ Base | ✅ Step 5 | 🟡 Step 6 | ❌ Still uncovered | New Tests |
+|------|--------|-----------|---------|---------|---------|-------------------|-----------|
+| 0 | `hasCloseElements` | 8 | 3 | 4 | 1 | 0 | 2 |
+| 3 | `belowZero` | 10 | 5 | 3 | 2 | 0 | 2 |
+| 4 | `meanAbsoluteDeviation` | 7 | 1 | 6 | 0 | 0 | 0 |
+| 9 | `rollingMax` | 8 | 4 | 3 | 1 | 0 | 1 |
+| 13 | `greatestCommonDivisor` | 8 | 3 | 4 | 1 | 0 | 1 |
+| 14 | `allPrefixes` | 6 | 3 | 2 | 1 | 0 | 1 |
+| 16 | `countDistinctCharacters` | 9 | 5 | 3 | 1 | 0 | 1 |
+| 18 | `howManyTimes` | 10 | 4 | 5 | 1 | 0 | 1 |
+| 19 | `sortNumbers` | 10 | 4 | 5 | 1 | 0 | 3 |
+| 23 | `strlen` | 7 | 2 | 2 | 3 | 0 | 3 |
+| 26 | `removeDuplicates` | 9 | 3 | 4 | 2 | 0 | 2 |
+| 27 | `flipCase` | 10 | 2 | 6 | 2 | 0 | 2 |
+| 31 | `isPrime` | 10 | 6 | 4 | 0 | 0 | 2 |
+| 47 | `median` | 9 | 4 | 3 | 2 | 0 | 2 |
+| 49 | `modp` | 10 | 3 | 4 | 3 | 0 | 3 |
+| 56 | `correctBracketing` | 9 | 6 | 1 | 2 | 0 | 2 |
+| 57 | `monotonic` | 11 | 4 | 6 | 1 | 0 | 1 |
+| 64 | `vowelsCount` | 11 | 4 | 4 | 3 | 0 | 3 |
+| 66 | `digitSum` | 9 | 3 | 5 | 1 | 0 | 1 |
+| 76 | `isSimplePower` | 10 | 7 | 1 | 2 | 0 | 2 |
+| 81 | `numericalLetterGrade` | 15 | 9 | 5 | 1 | 0 | 2 |
+| 86 | `antiShuffle` | 9 | 4 | 4 | 1 | 0 | 1 |
+| 87 | `getRow` | 9 | 4 | 2 | 3 | 0 | 3 |
+| 93 | `encode` | 9 | 2 | 5 | 2 | 0 | 2 |
+| 100 | `makeAPile` | 7 | 3 | 2 | 2 | 0 | 2 |
+| 120 | `maximum` | 9 | 3 | 4 | 2 | 0 | 2 |
+| 124 | `validDate` | 15 | 9 | 6 | 0 | 0 | 0 |
+| 129 | `minPath` | 9 | 6 | 0 | 3 | 0 | 3 |
+| 156 | `intToMiniRoman` | 13 | 6 | 3 | 4 | 0 | 4 |
+| 160 | `doAlgebra` | 13 | 4 | 3 | 6 | 0 | 6 |
+| **Total** | | **289** | **126** | **109** | **54** | **0** | **60** |
 
 **Coverage after base tests: 126 / 289 = 44%**  
 **Coverage after Step 5 improved tests: 235 / 289 = 81%**  
-**Remaining uncovered (addressed in Step 6): 54 / 289 = 19%**  
-**Total coverage after Step 6: 289 / 289 = 100%**
+**Coverage after Step 6 mutation-driven tests: 289 / 289 = 100%**  
+**Remaining uncovered: 0 / 289 = 0%**

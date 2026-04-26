@@ -44,7 +44,7 @@ class SolutionTest {
     }
 
     // Tests with mutations
-    // EC8: null input
+    // EC9: null input
     @Test
     void nullInputThrowsException() {
         var s = new humaneval.claude.task_16.Solution();

@@ -82,4 +82,18 @@ class SolutionTest {
             // Any exception is acceptable — what matters is the test does not hang
         }
     }
+
+    // EC12: n > 1000 — Returns x+1 mutation above max; documents behavior outside the spec
+    @Test
+    void aboveMaximumProducesExtraSymbols() {
+        var s = new humaneval.claude.task_156.Solution();
+        assertEquals("mi", s.intToMiniRoman(1001));
+    }
+
+    // EC13: n negative — Returns x-1 mutation below minimum; loop never executes, returns empty
+    @Test
+    void negativeInputReturnsEmpty() {
+        var s = new humaneval.claude.task_156.Solution();
+        assertEquals("", s.intToMiniRoman(-1));
+    }
 }
