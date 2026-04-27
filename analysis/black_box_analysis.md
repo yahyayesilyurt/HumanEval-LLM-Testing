@@ -1483,7 +1483,7 @@ void nullOperandListThrowsException() {
 | 47 | `median` | 9 | 4 | 3 | 2 | 0 | 2 |
 | 49 | `modp` | 10 | 3 | 4 | 3 | 0 | 3 |
 | 56 | `correctBracketing` | 9 | 6 | 1 | 2 | 0 | 2 |
-| 57 | `monotonic` | 11 | 4 | 6 | 1 | 0 | 1 |
+| 57 | `monotonic` | 11 | 4 | 6 | 1 | 0 | 2 |
 | 64 | `vowelsCount` | 11 | 4 | 4 | 3 | 0 | 3 |
 | 66 | `digitSum` | 9 | 3 | 5 | 1 | 0 | 1 |
 | 76 | `isSimplePower` | 10 | 7 | 1 | 2 | 0 | 2 |
@@ -1497,7 +1497,7 @@ void nullOperandListThrowsException() {
 | 129 | `minPath` | 9 | 6 | 0 | 3 | 0 | 3 |
 | 156 | `intToMiniRoman` | 13 | 6 | 3 | 4 | 0 | 4 |
 | 160 | `doAlgebra` | 13 | 4 | 3 | 6 | 0 | 6 |
-| **Total** | | **289** | **126** | **109** | **54** | **0** | **60** |
+| **Total** | | **289** | **126** | **109** | **54** | **0** | **61** |
 
 **Coverage after base tests: 126 / 289 = 44%**  
 **Coverage after Step 5 improved tests: 235 / 289 = 81%**  
