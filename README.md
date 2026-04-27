@@ -67,23 +67,31 @@ From those four tiers we draw 30 prompts as **8 Easy / 7 Medium / 9 Hard /
 
 ## Pipeline
 
-1. Each prompt sent verbatim to **Claude Opus 4.6** → `logs/claude.md`
-2. Same prompts sent verbatim to **GPT-5.4**  → `logs/gpt.md`
+1. Each prompt sent verbatim to **Claude Opus 4.6** → `logs/claude_log.md`
+2. Same prompts sent verbatim to **GPT-5.4**  → `logs/gpt_log.md`
 3. Code extracted (minimal changes were needed like adding a class around the code, no code body or semantics is changed) from the logs → `src/main/java/humaneval/{claude,gpt}/task_<N>/Solution.java`
 4. Dataset's base tests ported to JUnit 6, one unified class per task → `src/test/java/humaneval/task_<N>/SolutionTest.java`
 5. `mvn test` runs both LLMs side-by-side via `@Test claude()` and `@Test gpt()`
 
 ## Results — base tests
 
-`Tests run: 60, Failures: 0, Errors: 0` — both LLMs produced first-attempt-passing code on all 30 tasks.
+Originally, each `SolutionTest.java` file contained two base-test methods, one
+for Claude and one for GPT, for **60 base-test methods total**. After Step 6,
+mutation-driven black-box tests were appended to the same `SolutionTest.java`
+files, so the current `SolutionTest`-only Maven run contains more than the
+original base tests.
 
-JaCoCo coverage on the LLM-generated classes:
+Current `mvn clean -Dtest='*SolutionTest' test` result:
+
+`Tests run: 121, Failures: 0, Errors: 0`
+
+JaCoCo coverage from that current `SolutionTest`-only run:
 
 | Metric | Claude Opus 4.6 | GPT-5.4 |
 |---|---:|---:|
-| Instructions | 97.7% | 98.5% |
-| Branches | 92.3% | 92.4% |
-| Lines | 97.2% | 99.1% |
+| Instructions | 97.8% | 98.2% |
+| Branches | 92.5% | 91.7% |
+| Lines | 97.3% | 98.8% |
 | Methods | 100% | 100% |
 | Classes | 100% | 100% |
 
@@ -91,7 +99,12 @@ JaCoCo coverage on the LLM-generated classes:
 
 Each LLM was asked to improve its own base test method using the JNose smell report and the per-task JaCoCo branch-coverage gaps as inputs. Output: `ImprovedByClaudeTest.java` and `ImprovedByGptTest.java` per task, alongside the original `SolutionTest.java`.
 
-Post-improvement: **621 tests, 1 failure**. Branch coverage jumped to Claude **99.0%** (the 2 uncovered branches are unreachable code in Claude's Solutions — a `switch` `default:` guarded out by a prior range check, and an `else if` fall-through unreachable for in-spec inputs) / GPT **100%**.
+Current full-suite result after Step 5 improvements, Step 6 mutation-driven
+black-box tests, and Step 7 refactoring:
+
+`mvn clean test` → **682 tests, 0 failures, 0 errors**.
+
+Full-suite branch coverage is Claude **99.1%** and GPT **99.2%**.
 
 ### LLM test-authoring errors (6, all fixed)
 
@@ -102,24 +115,32 @@ The improved tests surfaced 6 assertions where the LLM wrote **incorrect expecte
 | Java/9 | Claude | `plateauOfMaximumStaysAtMaximum` | Expected `[1,3,3,3,3,2,3,3]` for `rollingMax`, which is impossible — rolling max is monotonically non-decreasing. |
 | Java/120 | Claude | `handlesAllNegativeArray` | Expected top-2 of `[-5,-3,-1,-7,-2]` to be `[-3,-1]`; the actual top-2 largest are `[-2,-1]`. |
 | Java/160 | Claude | `floorDivisionFloorsTowardNegativeInfinity` | Expected `1 - 10/3 = -3`. Python floors (`-3`), Java truncates (`-2`). Renamed to `integerDivisionTruncatesTowardZero`. |
-| Java/160 | GPT | `handlesFloorDivisionAndZeroExponent` | Same Python-floor-vs-Java-truncation confusion. |
+| Java/160 | GPT | `integerDivisionAndZeroExponent` | Same Python-floor-vs-Java-truncation confusion. Renamed from `handlesFloorDivisionAndZeroExponent`. |
 | Java/64 | GPT | `countsStandardVowelsCaseInsensitively` | `"AEon"` has 3 vowels (A,E,o), expected 2. |
 | Java/64 | GPT | `countsYOnlyWhenItIsTheLastCharacter` | `"yellow"` was expected 0 but has 2 vowels (e,o); `"rhythm"` was expected 1 but has 0 vowels. LLM thought the function counts *only* y-at-end, ignoring standard a/e/i/o/u. |
 
 Cross-LLM breakdown: **Claude 3 errors, GPT 3 errors**. The Python-vs-Java floor confusion appears in both LLMs independently, suggesting it stems from multi-language training rather than a model-specific quirk.
 
-### Solution bugs uncovered by the improved tests (1, pending Step 7)
+### Solution bugs uncovered by the improved tests and refactored in Step 7
 
 | Task | LLM | Bug |
 |---|---|---|
-| Java/47 `median` | GPT | `(MAX_VALUE + MAX_VALUE) / 2` integer-overflows, returning `-1` instead of the correct `MAX_VALUE`. The dataset's base tests never exercised extreme inputs; the improved test `avoidsIntegerOverflowWhenAveragingMiddleElements` does. Queued for Step 7 (Refactoring). |
+| Java/47 `median` | GPT | `(MAX_VALUE + MAX_VALUE) / 2` integer-overflowed, returning `-1` instead of the correct `MAX_VALUE`. The dataset's base tests never exercised extreme inputs; the improved test `avoidsIntegerOverflowWhenAveragingMiddleElements` exposed it. Fixed in Step 7 by averaging with `long` arithmetic before converting to `double`. |
+| Java/64 `vowelsCount` | Claude | Step 6 empty-string testing exposed a `StringIndexOutOfBoundsException` caused by reading the last character of an empty string. Fixed in Step 7 by returning `0` for empty input; null input remains an expected `NullPointerException`. |
+| Java/160 `doAlgebra` | Claude | Step 6 invalid-operator testing exposed missing validation. Fixed in Step 7 by validating operators before evaluation and throwing `IllegalArgumentException` for unsupported operators. |
 
-This is the intended outcome of Step 5: LLM-improved tests, driven by smell/coverage feedback, find real bugs that the benchmark's minimal base suite missed.
+This is the intended outcome of the later testing steps: LLM-improved tests and
+black-box mutation tests found bugs that the benchmark's minimal base suite
+missed, and Step 7 refactored the affected generated solutions.
 
 ### Coverage after Step 5
 
 | Metric | Claude — before | Claude — after | GPT — before | GPT — after |
 |---|---:|---:|---:|---:|
-| Instructions | 97.7% | **99.9%** | 98.5% | **100%** |
-| Branches | 92.3% | **99.0%** | 92.4% | **100%** |
-| Lines | 97.2% | **99.7%** | 99.1% | **100%** |
+| Instructions | 97.8% | **99.9%** | 98.2% | **99.7%** |
+| Branches | 92.5% | **99.1%** | 91.7% | **99.2%** |
+| Lines | 97.3% | **99.7%** | 98.8% | **99.7%** |
+
+The "before" columns are recomputed from the current `SolutionTest`-only suite,
+which includes Step 6 additions appended to `SolutionTest.java`; they are not a
+pure snapshot of the original 60 base-test methods.
