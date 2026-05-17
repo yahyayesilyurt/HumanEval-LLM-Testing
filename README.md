@@ -144,3 +144,58 @@ missed, and Step 7 refactored the affected generated solutions.
 The "before" columns are recomputed from the current `SolutionTest`-only suite,
 which includes Step 6 additions appended to `SolutionTest.java`; they are not a
 pure snapshot of the original 60 base-test methods.
+
+# Phase 2 — Integration Testing (BookScan)
+
+Extension (spec §1.2). `BookScan` is generated **by the LLM agents** (same
+pinned Phase-1 models: Claude Opus 4.6, GPT-5.4). Its purpose: determine how
+many times words of a given length appear in a text and on which lines,
+reusing tasks **#18 `howManyTimes`**, **#23 `strlen`**, **#27 `flipCase`**.
+
+## Two prompt approaches × two LLMs → 4 variants
+
+| Variant | Prompt |
+|---|---|
+| `bookscan/<llm>/unmodified` | the three verbatim Phase-1 stub prompts combined + one framing line (no engineering) |
+| `bookscan/<llm>/edited` | same dataset/doctest idiom, improved: explicit signatures + integration contract + edge cases |
+
+Sources: `src/main/java/bookscan/{claude,gpt}/{unmodified,edited}/BookScan.java`.
+Self-authored integration tests: `src/test/java/bookscan/.../BookScanIntegrationTest.java`
+(each LLM tests its own variant; the test prompt applies the Phase-1
+black-box methodology — equivalence-class partitioning, boundary-value
+analysis, branch-coverage targeting). Every prompt, response and usage note is
+in `logs/{claude,gpt}_log.md` (`## Phase2 BookScan` sections).
+
+## Results
+
+| Variant | Tests | Failing | Instr | Branch | Line | JNose smells |
+|---|--:|--:|--:|--:|--:|--:|
+| claude/unmodified | 47 | 2 | 100% | 100% | 100% | 51 (Magic Number) |
+| claude/edited | 68 | 4 | 100% | 100% | 100% | 69 (Magic Number) |
+| gpt/unmodified | 12 | 0 | 100% | 100% | 100% | 37 (Magic Number) |
+| gpt/edited | 12 | 0 | 100% | 100% | 100% | 19 (Magic Number) |
+
+Coverage measured with `mvn test -Dtest='BookScanIntegrationTest'
+-Dmaven.test.failure.ignore=true` (a measurement flag — no code modified).
+JNose-Test 0.8.6, all 21 detectors.
+
+## Findings
+
+- **Code-prompt comparison:** the *unmodified* prompt makes each LLM invent an
+  incompatible API (Claude a stateless `scan`, GPT a stateful class with a
+  `ScanResult` inner type); the *edited* prompt makes both converge on the
+  specified contract. The edited prompt's only measurable effect is API
+  conformance — under a strong test prompt, coverage saturates (100%)
+  regardless of variant, so prompt-editing the **code** prompt does not
+  improve coverage or correctness; the **test** prompt is the dominant lever.
+- **LLM as test author:** Claude is thorough (115 tests) but ~5% of its
+  oracles are wrong (miscounted word lengths); GPT is terse (24 tests) with
+  **0%** oracle errors. Failing tests are kept exactly as generated and
+  reported as the agent's test-generation error rate (spec: "success/error
+  rates in test generation") — the BookScan code is correct in every failure.
+- **Smells:** only *Magic Number Test* appears across all detectors — the
+  generated suites are otherwise structurally clean.
+
+Full analysis + tables: `analysis/phase2_bookscan_analysis.md`. Because the 6
+agent oracle errors are intentionally not hand-fixed, plain `mvn clean test`
+fails on them by design (they are evidence, not defects in the code).
