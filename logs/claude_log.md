@@ -8149,3 +8149,1466 @@ assertion in the mutation test is satisfied. After applying the fix, all 8 tests
 and `nullOperandListThrowsException()`.
 
 ---
+
+---
+
+## Phase2 BookScan — codegen (prompt=unmodified), iteration 1
+
+- **Deliverable:** Phase 2 `BookScan` class
+- **Prompt variant:** `unmodified` (verbatim Phase-1 prompts combined, minimal wrapper)
+- **Model:** Claude Opus 4.6
+- **Timestamp:** 2026-05-16T17:44:04+03:00
+- **Elapsed:** 77.13s
+
+### Prompt
+
+````
+Combine the following three HumanEval task prompts into one complete, fully-implemented Java class named BookScan whose purpose is to determine how many times words of a given length appear in a text and on which lines they appear; write a working body for every method.
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    /**
+    Find how many times a given substring can be found in the original string. Count overlaping cases.
+    >>> howManyTimes("", "a")
+    0
+    >>> howManyTimes("aaa", "a")
+    3
+    >>> howManyTimes("aaaa", "aa")
+    3
+     */
+    public int howManyTimes(String string, String substring) {
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    /**
+    Return length of given string
+    >>> strlen("")
+    0
+    >>> strlen("abc")
+    3
+     */
+    public int strlen(String string) {
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    /**
+    For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+    >>> flipCase("Hello")
+    "hELLO"
+     */
+    public String flipCase(String string) {
+
+````
+
+### Response
+
+````
+Here's the combined `BookScan` class:
+
+```java
+import java.util.*;
+import java.lang.*;
+
+class BookScan {
+
+    public int strlen(String string) {
+        return string.length();
+    }
+
+    public String flipCase(String string) {
+        StringBuilder result = new StringBuilder();
+        for (char c : string.toCharArray()) {
+            if (Character.isUpperCase(c))
+                result.append(Character.toLowerCase(c));
+            else if (Character.isLowerCase(c))
+                result.append(Character.toUpperCase(c));
+            else
+                result.append(c);
+        }
+        return result.toString();
+    }
+
+    public int howManyTimes(String string, String substring) {
+        if (substring.isEmpty() || string.isEmpty()) return 0;
+        int count = 0;
+        for (int i = 0; i <= string.length() - substring.length(); i++) {
+            if (string.substring(i, i + substring.length()).equals(substring))
+                count++;
+        }
+        return count;
+    }
+
+    /**
+     * Scans multi-line text for words of the given length.
+     * Returns a map from each matching word (case-flipped) to its 1-based line numbers.
+     * Uses all three primitives: strlen for length checks, flipCase for key normalization,
+     * and howManyTimes for counting overlapping occurrences within a line.
+     */
+    public Map<String, List<Integer>> scan(String text, int wordLength) {
+        Map<String, List<Integer>> result = new LinkedHashMap<>();
+        String[] lines = text.split("\n", -1);
+
+        for (int i = 0; i < lines.length; i++) {
+            int lineNumber = i + 1;
+            String line = lines[i];
+            for (String token : line.split("\\s+")) {
+                if (token.isEmpty()) continue;
+                if (strlen(token) == wordLength) {
+                    String key = flipCase(token);
+                    int times = howManyTimes(line, token);
+                    List<Integer> entries = result.computeIfAbsent(key, k -> new ArrayList<>());
+                    for (int t = 0; t < times; t++) {
+                        entries.add(lineNumber);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+**How it fits together:**
+
+- **`strlen`** — checks whether a token's length matches the target `wordLength`
+- **`flipCase`** — normalizes each matching word into a case-flipped key (e.g., `"Hello"` → `"hELLO"`), grouping variants under a single transformed form
+- **`howManyTimes`** — counts overlapping occurrences of that token within its line, so repeated/overlapping words on one line produce multiple line-number entries
+- **`scan`** — the orchestrator that splits text into lines and tokens, then uses all three primitives to build a map from each case-flipped word to the list of line numbers where it appears (with duplicates reflecting overlap count)
+````
+
+---
+
+## Phase2 BookScan — codegen (prompt=edited), iteration 1
+
+- **Deliverable:** Phase 2 `BookScan` class
+- **Prompt variant:** `edited` (engineered/edited prompt)
+- **Model:** Claude Opus 4.6
+- **Timestamp:** 2026-05-16T17:44:32+03:00
+- **Elapsed:** 27.65s
+
+### Prompt
+
+````
+import java.util.*;
+import java.lang.*;
+
+class BookScan {
+    /**
+    BookScan scans book text and reports, for a requested word length, how many
+    words of that length occur and on which lines they appear. Word length is
+    measured by calling strlen. A word is a maximal run of non-whitespace
+    characters (split each line on \s+, drop empty tokens); lines are
+    separated by '\n' and numbered from 1. length <= 0 gives an empty result;
+    null text throws NullPointerException; empty or all-whitespace text gives
+    an empty result. All methods are deterministic.
+     */
+
+    /**
+    Return length of given string
+    >>> strlen("")
+    0
+    >>> strlen("abc")
+    3
+     */
+    public int strlen(String string) {
+
+    /**
+    Find how many times a given substring can be found in the original string. Count overlaping cases.
+    >>> howManyTimes("", "a")
+    0
+    >>> howManyTimes("aaa", "a")
+    3
+    >>> howManyTimes("aaaa", "aa")
+    3
+     */
+    public int howManyTimes(String string, String substring) {
+
+    /**
+    For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+    >>> flipCase("Hello")
+    "hELLO"
+     */
+    public String flipCase(String string) {
+
+    /**
+    Return a map with exactly one entry: the queried length mapped to the
+    ascending list of DISTINCT 1-based line numbers that contain at least one
+    word of that length (measured via strlen). Empty map if no line qualifies.
+    >>> wordsOfLength("hi bye\nfo\nabc de", 3)
+    {3=[1, 3]}
+     */
+    public Map<Integer, List<Integer>> wordsOfLength(String text, int length) {
+
+    /**
+    Return the total number of words (counting multiplicity) of exactly the
+    given length across the whole text (word length measured via strlen).
+    >>> countWordsOfLength("hi bye\nfo\nabc de", 3)
+    2
+     */
+    public int countWordsOfLength(String text, int length) {
+
+````
+
+### Response
+
+````
+Here's the implementation for all five methods:
+
+```java
+import java.util.*;
+import java.lang.*;
+
+class BookScan {
+
+    public int strlen(String string) {
+        return string.length();
+    }
+
+    public int howManyTimes(String string, String substring) {
+        if (substring.isEmpty()) return 0;
+        int count = 0;
+        for (int i = 0; i <= string.length() - substring.length(); i++) {
+            if (string.substring(i, i + substring.length()).equals(substring)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String flipCase(String string) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : string.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                sb.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                sb.append(Character.toUpperCase(c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public Map<Integer, List<Integer>> wordsOfLength(String text, int length) {
+        Map<Integer, List<Integer>> result = new HashMap<>();
+        if (length <= 0) return result;
+
+        String[] lines = text.split("\n", -1);
+        List<Integer> lineNumbers = new ArrayList<>();
+
+        for (int i = 0; i < lines.length; i++) {
+            String[] words = lines[i].split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty() && strlen(word) == length) {
+                    lineNumbers.add(i + 1);
+                    break;
+                }
+            }
+        }
+
+        if (!lineNumbers.isEmpty()) {
+            result.put(length, lineNumbers);
+        }
+        return result;
+    }
+
+    public int countWordsOfLength(String text, int length) {
+        if (length <= 0) return 0;
+
+        int count = 0;
+        String[] lines = text.split("\n", -1);
+        for (String line : lines) {
+            String[] words = line.split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty() && strlen(word) == length) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
+```
+
+Key details:
+
+- **`strlen`** — delegates to `String.length()`.
+- **`howManyTimes`** — slides a window of `substring.length()` across the string, counting overlapping matches (e.g. `"aaaa"` / `"aa"` → 3).
+- **`flipCase`** — iterates chars, swapping upper↔lower, leaving non-letters unchanged.
+- **`wordsOfLength`** — splits text on `\n` (preserving trailing empties with `-1`), splits each line on `\s+`, drops empty tokens, and collects distinct line numbers (1-based) where at least one word has the queried `strlen`. Returns a single-entry map or empty map.
+- **`countWordsOfLength`** — same splitting logic, but counts every matching word across all lines (with multiplicity).
+````
+
+### Usage Note (Phase2 BookScan, prompt=unmodified)
+
+Extracted from iteration 1. The fenced Java code was used with only these minimal, spec-allowed modifications: prepended @Authors header and `package bookscan.claude.unmodified;`; changed `class BookScan` to `public class BookScan` (testability across packages); no method body or semantics changed. Written to `src/main/java/bookscan/claude/unmodified/BookScan.java`.
+
+### Usage Note (Phase2 BookScan, prompt=edited)
+
+Extracted from iteration 1. The fenced Java code was used with only these minimal, spec-allowed modifications: prepended @Authors header and `package bookscan.claude.edited;`; changed `class BookScan` to `public class BookScan` (testability across packages); no method body or semantics changed. Written to `src/main/java/bookscan/claude/edited/BookScan.java`.
+
+---
+
+## Phase2 BookScan — integration tests (target=claude/unmodified), iteration 1
+
+- **Deliverable:** Phase 2 `BookScan` integration tests (self-authored)
+- **Target class:** `src/main/java/bookscan/claude/unmodified/BookScan.java`
+- **Model:** Claude Opus 4.6
+- **Timestamp:** 2026-05-17T11:02:15+03:00
+- **Elapsed:** 97.38s
+
+### Prompt
+
+````
+You are writing JUnit 6 (org.junit.jupiter) INTEGRATION tests for the
+Java class below. Output ONLY one ```java fenced block, no prose.
+
+Requirements:
+- `package bookscan.claude.unmodified;` and `import bookscan.claude.unmodified.BookScan;` (the class under test is in
+  the same package, but include the import for clarity if you prefer).
+- Public class named `BookScanIntegrationTest`, JUnit Jupiter
+  (`org.junit.jupiter.api.*`, `org.junit.jupiter.api.Assertions.*`). Only
+  java.* and org.junit.jupiter imports. No I/O, no randomness.
+- These are INTEGRATION tests for the class EXACTLY AS GIVEN below (use its
+  real public API — constructor and method names/signatures as they appear;
+  do not assume methods it does not have). Exercise the class as a whole and
+  the COLLABORATION between its methods: scanning realistic MULTI-LINE book
+  text for words of a given length and the lines they occur on, with word
+  length measured via `strlen`. Include at least one test combining
+  flipCase/howManyTimes/strlen with the scan.
+- Design the suite with the same black-box + white-box methodology used in
+  Phase 1:
+  * EQUIVALENCE CLASS PARTITIONING — for every parameter (text, word length,
+    substring) enumerate the valid and invalid equivalence classes and add a
+    representative test for each class (e.g. empty text, single-line,
+    multi-line; length < 0, length = 0, length = 1, typical length, length
+    longer than any word; null where the contract throws).
+  * BOUNDARY VALUE ANALYSIS — test the boundaries of each class: shortest /
+    longest word, first line (line 1) and last line, length exactly at a
+    word's size and ±1, single-character words, words separated by multiple
+    spaces/tabs, leading/trailing whitespace, empty lines between text.
+  * BRANCH COVERAGE — choose inputs so that every branch in the class under
+    test is exercised (both sides of each `if`, empty vs non-empty
+    collections, the no-match path and the match path); aim for full branch
+    coverage of the scan/count methods.
+- Each test method has a clear name stating the partition/boundary it covers
+  and focused assertions. Be deterministic.
+
+Class under test:
+
+```java
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
+package bookscan.claude.unmodified;
+
+import java.util.*;
+import java.lang.*;
+
+public class BookScan {
+
+    public int strlen(String string) {
+        return string.length();
+    }
+
+    public String flipCase(String string) {
+        StringBuilder result = new StringBuilder();
+        for (char c : string.toCharArray()) {
+            if (Character.isUpperCase(c))
+                result.append(Character.toLowerCase(c));
+            else if (Character.isLowerCase(c))
+                result.append(Character.toUpperCase(c));
+            else
+                result.append(c);
+        }
+        return result.toString();
+    }
+
+    public int howManyTimes(String string, String substring) {
+        if (substring.isEmpty() || string.isEmpty()) return 0;
+        int count = 0;
+        for (int i = 0; i <= string.length() - substring.length(); i++) {
+            if (string.substring(i, i + substring.length()).equals(substring))
+                count++;
+        }
+        return count;
+    }
+
+    /**
+     * Scans multi-line text for words of the given length.
+     * Returns a map from each matching word (case-flipped) to its 1-based line numbers.
+     * Uses all three primitives: strlen for length checks, flipCase for key normalization,
+     * and howManyTimes for counting overlapping occurrences within a line.
+     */
+    public Map<String, List<Integer>> scan(String text, int wordLength) {
+        Map<String, List<Integer>> result = new LinkedHashMap<>();
+        String[] lines = text.split("\n", -1);
+
+        for (int i = 0; i < lines.length; i++) {
+            int lineNumber = i + 1;
+            String line = lines[i];
+            for (String token : line.split("\\s+")) {
+                if (token.isEmpty()) continue;
+                if (strlen(token) == wordLength) {
+                    String key = flipCase(token);
+                    int times = howManyTimes(line, token);
+                    List<Integer> entries = result.computeIfAbsent(key, k -> new ArrayList<>());
+                    for (int t = 0; t < times; t++) {
+                        entries.add(lineNumber);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+````
+
+### Response
+
+````
+```java
+package bookscan.claude.unmodified;
+
+import bookscan.claude.unmodified.BookScan;
+
+import java.util.*;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BookScanIntegrationTest {
+
+    private final BookScan bookScan = new BookScan();
+
+    // ===== EQUIVALENCE CLASS PARTITIONING: text parameter =====
+
+    @Test
+    void scan_emptyText_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("", 3);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_singleLineSingleWord_matchingLength_returnsFlippedKeyWithLine1() {
+        Map<String, List<Integer>> result = bookScan.scan("Hello", 5);
+        assertEquals(List.of(1), result.get("hELLO"));
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void scan_singleLineMultipleWords_filtersbyLength() {
+        Map<String, List<Integer>> result = bookScan.scan("I am a cat", 3);
+        assertEquals(List.of(1), result.get("CAT"));
+        assertNull(result.get("i"));
+        assertNull(result.get("AM"));
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void scan_multiLineText_returnsCorrectLineNumbers() {
+        String text = "the fox\njumped over\nthe lazy dog";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertEquals(List.of(1), result.get("THE"));
+        assertEquals(List.of(1), result.get("FOX"));
+        assertEquals(List.of(3), result.get("DOG"));
+        assertTrue(result.containsKey("THE"));
+    }
+
+    @Test
+    void scan_textWithOnlyWhitespace_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("   \t  ", 3);
+        assertTrue(result.isEmpty());
+    }
+
+    // ===== EQUIVALENCE CLASS PARTITIONING: wordLength parameter =====
+
+    @Test
+    void scan_wordLengthZero_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("hello world", 0);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_wordLengthOne_matchesSingleCharWords() {
+        Map<String, List<Integer>> result = bookScan.scan("I am a hero", 1);
+        assertTrue(result.containsKey("i"));
+        assertTrue(result.containsKey("A"));
+        assertEquals(List.of(1), result.get("i"));
+        assertEquals(List.of(1), result.get("A"));
+    }
+
+    @Test
+    void scan_wordLengthNegative_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("hello world", -1);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_wordLengthLongerThanAnyWord_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("short words here", 100);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_typicalWordLength_matchesCorrectly() {
+        String text = "Java code runs fast";
+        Map<String, List<Integer>> result = bookScan.scan(text, 4);
+        assertTrue(result.containsKey("jAVA"));
+        assertTrue(result.containsKey("CODE"));
+        assertTrue(result.containsKey("RUNS"));
+        assertTrue(result.containsKey("FAST"));
+        assertEquals(4, result.size());
+    }
+
+    // ===== BOUNDARY VALUE ANALYSIS =====
+
+    @Test
+    void scan_wordLengthExactlyMatchesWord_included() {
+        Map<String, List<Integer>> result = bookScan.scan("cat", 3);
+        assertEquals(List.of(1), result.get("CAT"));
+    }
+
+    @Test
+    void scan_wordLengthOneMoreThanWord_excluded() {
+        Map<String, List<Integer>> result = bookScan.scan("cat", 4);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_wordLengthOneLessThanWord_excluded() {
+        Map<String, List<Integer>> result = bookScan.scan("cat", 2);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_firstLineMatch_returnsLineOne() {
+        String text = "dog\ncat\nfox";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertTrue(result.get("DOG").contains(1));
+    }
+
+    @Test
+    void scan_lastLineMatch_returnsCorrectLineNumber() {
+        String text = "dog\ncat\nfox";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertTrue(result.get("FOX").contains(3));
+    }
+
+    @Test
+    void scan_leadingWhitespaceOnLine_tokensStillParsed() {
+        Map<String, List<Integer>> result = bookScan.scan("   cat", 3);
+        assertEquals(List.of(1), result.get("CAT"));
+    }
+
+    @Test
+    void scan_trailingWhitespaceOnLine_tokensStillParsed() {
+        Map<String, List<Integer>> result = bookScan.scan("cat   ", 3);
+        assertEquals(List.of(1), result.get("CAT"));
+    }
+
+    @Test
+    void scan_multipleSpacesAndTabsBetweenWords_parsedCorrectly() {
+        Map<String, List<Integer>> result = bookScan.scan("cat\t\t  dog", 3);
+        assertTrue(result.containsKey("CAT"));
+        assertTrue(result.containsKey("DOG"));
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void scan_emptyLinesBetweenText_lineNumbersAccountForEmpties() {
+        String text = "cat\n\n\ndog";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertEquals(List.of(1), result.get("CAT"));
+        assertEquals(List.of(4), result.get("DOG"));
+    }
+
+    @Test
+    void scan_trailingNewlines_emptyLinesPreserved() {
+        String text = "cat\n\n";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertEquals(List.of(1), result.get("CAT"));
+        assertEquals(1, result.size());
+    }
+
+    // ===== BRANCH COVERAGE: howManyTimes paths =====
+
+    @Test
+    void scan_wordAppearsMultipleTimesOnSameLine_lineAddedMultipleTimes() {
+        String text = "cat sat cat";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        // "cat" appears twice as token; howManyTimes("cat sat cat", "cat") = 2
+        // processed twice: 2 + 2 = 4 entries of line 1
+        assertEquals(List.of(1, 1, 1, 1), result.get("CAT"));
+    }
+
+    @Test
+    void scan_noMatchingWords_returnsEmptyMap() {
+        Map<String, List<Integer>> result = bookScan.scan("hello world", 3);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_sameWordOnMultipleLines_allLinesRecorded() {
+        String text = "run\nfun\nrun";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        assertEquals(List.of(1, 3), result.get("RUN"));
+        assertEquals(List.of(2), result.get("FUN"));
+    }
+
+    // ===== BRANCH COVERAGE: flipCase paths =====
+
+    @Test
+    void scan_allUppercaseWord_flippedToLowercase() {
+        Map<String, List<Integer>> result = bookScan.scan("ABC", 3);
+        assertEquals(List.of(1), result.get("abc"));
+    }
+
+    @Test
+    void scan_allLowercaseWord_flippedToUppercase() {
+        Map<String, List<Integer>> result = bookScan.scan("abc", 3);
+        assertEquals(List.of(1), result.get("ABC"));
+    }
+
+    @Test
+    void scan_mixedCaseWord_eachCharFlipped() {
+        Map<String, List<Integer>> result = bookScan.scan("AbC", 3);
+        assertEquals(List.of(1), result.get("aBc"));
+    }
+
+    @Test
+    void scan_wordWithDigitsAndSpecialChars_nonLettersUnchanged() {
+        Map<String, List<Integer>> result = bookScan.scan("a1B", 3);
+        assertEquals(List.of(1), result.get("A1b"));
+    }
+
+    // ===== INTEGRATION: combining flipCase/howManyTimes/strlen in scan =====
+
+    @Test
+    void scan_multiLineBookText_integratesAllMethods() {
+        String text = "The Quick brown FOX\njumps Over the Lazy\nDOG the fox THE";
+        // wordLength = 3: matches "The"(3), "FOX"(3), "the"(3), "DOG"(3), "fox"(3), "THE"(3)
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+
+        // "The" on line 1: flipCase -> "tHE", howManyTimes("The Quick brown FOX", "The") = 1
+        assertTrue(result.containsKey("tHE"));
+        assertTrue(result.get("tHE").contains(1));
+
+        // "FOX" on line 1: flipCase -> "fox", howManyTimes finds "FOX" once
+        assertTrue(result.containsKey("fox"));
+        assertTrue(result.get("fox").contains(1));
+
+        // "the" on line 2: flipCase -> "THE", howManyTimes("jumps Over the Lazy", "the") = 1
+        assertTrue(result.containsKey("THE"));
+        assertTrue(result.get("THE").contains(2));
+
+        // "DOG" on line 3: flipCase -> "dog"
+        assertTrue(result.containsKey("dog"));
+        assertTrue(result.get("dog").contains(3));
+
+        // "fox" on line 3: flipCase -> "FOX"
+        assertTrue(result.containsKey("FOX"));
+        assertTrue(result.get("FOX").contains(3));
+    }
+
+    @Test
+    void scan_overlappingSubstringInLine_howManyTimesCountsOverlaps() {
+        // Line: "aa aa" with wordLength=2
+        // Token "aa" appears twice; howManyTimes("aa aa", "aa") = 2
+        // Each token encounter adds lineNumber twice → 4 total
+        String text = "aa aa";
+        Map<String, List<Integer>> result = bookScan.scan(text, 2);
+        assertEquals(List.of(1, 1, 1, 1), result.get("AA"));
+    }
+
+    @Test
+    void scan_tokenSubstringOfAnotherTokenOnSameLine_howManyTimesCountsAll() {
+        // "ab xab ab" wordLength=2: token "ab" matches
+        // howManyTimes("ab xab ab", "ab") finds "ab" at positions 0, 4, 7 → 3
+        // "ab" appears as token twice (positions 0 and 7)
+        // each token encounter: 3 entries → total 6
+        String text = "ab xab ab";
+        Map<String, List<Integer>> result = bookScan.scan(text, 2);
+        assertEquals(List.of(1, 1, 1, 1, 1, 1), result.get("AB"));
+    }
+
+    @Test
+    void scan_strlenUsedForFiltering_verifyLengthCheck() {
+        // Verify strlen distinguishes words precisely
+        String text = "to be or not";
+        Map<String, List<Integer>> result = bookScan.scan(text, 2);
+        assertTrue(result.containsKey("TO"));
+        assertTrue(result.containsKey("BE"));
+        assertTrue(result.containsKey("OR"));
+        assertFalse(result.containsKey("NOT"));
+        // "not" has length 3, should not appear
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    void scan_resultPreservesInsertionOrder() {
+        String text = "fox cat dog";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        List<String> keys = new ArrayList<>(result.keySet());
+        assertEquals("FOX", keys.get(0));
+        assertEquals("CAT", keys.get(1));
+        assertEquals("DOG", keys.get(2));
+    }
+
+    // ===== STANDALONE METHOD TESTS (used as primitives by scan) =====
+
+    @Test
+    void howManyTimes_emptySubstring_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("hello", ""));
+    }
+
+    @Test
+    void howManyTimes_emptyString_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("", "a"));
+    }
+
+    @Test
+    void howManyTimes_bothEmpty_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("", ""));
+    }
+
+    @Test
+    void howManyTimes_noMatch_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("hello", "xyz"));
+    }
+
+    @Test
+    void howManyTimes_singleMatch_returnsOne() {
+        assertEquals(1, bookScan.howManyTimes("hello", "hell"));
+    }
+
+    @Test
+    void howManyTimes_overlappingMatches_countsAll() {
+        assertEquals(3, bookScan.howManyTimes("aaaa", "aa"));
+    }
+
+    @Test
+    void howManyTimes_substringLongerThanString_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("ab", "abc"));
+    }
+
+    @Test
+    void flipCase_emptyString_returnsEmpty() {
+        assertEquals("", bookScan.flipCase(""));
+    }
+
+    @Test
+    void flipCase_digitsAndSymbols_unchanged() {
+        assertEquals("123!@#", bookScan.flipCase("123!@#"));
+    }
+
+    @Test
+    void strlen_emptyString_returnsZero() {
+        assertEquals(0, bookScan.strlen(""));
+    }
+
+    @Test
+    void strlen_nonEmptyString_returnsLength() {
+        assertEquals(5, bookScan.strlen("hello"));
+    }
+
+    // ===== EDGE CASES =====
+
+    @Test
+    void scan_singleNewline_twoEmptyLines() {
+        Map<String, List<Integer>> result = bookScan.scan("\n", 1);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void scan_wordWithAllDigits_matchedByLength() {
+        Map<String, List<Integer>> result = bookScan.scan("123 ab", 3);
+        assertEquals(List.of(1), result.get("123"));
+    }
+
+    @Test
+    void scan_caseSensitiveTokenDistinction_separateKeys() {
+        // "Cat" and "cat" are different tokens → different flipped keys
+        String text = "Cat cat";
+        Map<String, List<Integer>> result = bookScan.scan(text, 3);
+        // flipCase("Cat") = "cAT", flipCase("cat") = "CAT"
+        assertTrue(result.containsKey("cAT"));
+        assertTrue(result.containsKey("CAT"));
+    }
+
+    @Test
+    void scan_longMultiLineBookPassage_fullIntegration() {
+        String text = String.join("\n",
+            "It was the best of times",
+            "it was the worst of times",
+            "it was the age of wisdom",
+            "it was the age of foolishness"
+        );
+        Map<String, List<Integer>> result = bookScan.scan(text, 2);
+        // "It" on line 1: flipCase -> "iT"
+        assertTrue(result.containsKey("iT"));
+        assertTrue(result.get("iT").get(0) == 1);
+        // "it" on lines 2,3,4: flipCase -> "IT"
+        assertTrue(result.containsKey("IT"));
+        assertEquals(3, result.get("IT").stream().distinct().count());
+        // "of" on all 4 lines: flipCase -> "OF"
+        assertTrue(result.containsKey("OF"));
+        assertEquals(List.of(1, 2, 3, 4), result.get("OF"));
+    }
+}
+```
+````
+
+### Usage Note (Phase2 BookScan integration tests, target=claude/unmodified)
+
+Extracted from iteration 1. The fenced JUnit 6 code was used with only the @Authors header prepended; no test logic changed. Written to `src/test/java/bookscan/claude/unmodified/BookScanIntegrationTest.java`.
+
+---
+
+## Phase2 BookScan — integration tests (target=claude/edited), iteration 1
+
+- **Deliverable:** Phase 2 `BookScan` integration tests (self-authored)
+- **Target class:** `src/main/java/bookscan/claude/edited/BookScan.java`
+- **Model:** Claude Opus 4.6
+- **Timestamp:** 2026-05-17T11:03:19+03:00
+- **Elapsed:** 63.79s
+
+### Prompt
+
+````
+You are writing JUnit 6 (org.junit.jupiter) INTEGRATION tests for the
+Java class below. Output ONLY one ```java fenced block, no prose.
+
+Requirements:
+- `package bookscan.claude.edited;` and `import bookscan.claude.edited.BookScan;` (the class under test is in
+  the same package, but include the import for clarity if you prefer).
+- Public class named `BookScanIntegrationTest`, JUnit Jupiter
+  (`org.junit.jupiter.api.*`, `org.junit.jupiter.api.Assertions.*`). Only
+  java.* and org.junit.jupiter imports. No I/O, no randomness.
+- These are INTEGRATION tests for the class EXACTLY AS GIVEN below (use its
+  real public API — constructor and method names/signatures as they appear;
+  do not assume methods it does not have). Exercise the class as a whole and
+  the COLLABORATION between its methods: scanning realistic MULTI-LINE book
+  text for words of a given length and the lines they occur on, with word
+  length measured via `strlen`. Include at least one test combining
+  flipCase/howManyTimes/strlen with the scan.
+- Design the suite with the same black-box + white-box methodology used in
+  Phase 1:
+  * EQUIVALENCE CLASS PARTITIONING — for every parameter (text, word length,
+    substring) enumerate the valid and invalid equivalence classes and add a
+    representative test for each class (e.g. empty text, single-line,
+    multi-line; length < 0, length = 0, length = 1, typical length, length
+    longer than any word; null where the contract throws).
+  * BOUNDARY VALUE ANALYSIS — test the boundaries of each class: shortest /
+    longest word, first line (line 1) and last line, length exactly at a
+    word's size and ±1, single-character words, words separated by multiple
+    spaces/tabs, leading/trailing whitespace, empty lines between text.
+  * BRANCH COVERAGE — choose inputs so that every branch in the class under
+    test is exercised (both sides of each `if`, empty vs non-empty
+    collections, the no-match path and the match path); aim for full branch
+    coverage of the scan/count methods.
+- Each test method has a clear name stating the partition/boundary it covers
+  and focused assertions. Be deterministic.
+
+Class under test:
+
+```java
+/* @Authors
+ * Student Names: Barış Karaer, Melisa Güler, Yahya Yeşilyurt
+ * Student IDs: 150230742, 820210315, 150210072
+ */
+package bookscan.claude.edited;
+
+import java.util.*;
+import java.lang.*;
+
+public class BookScan {
+
+    public int strlen(String string) {
+        return string.length();
+    }
+
+    public int howManyTimes(String string, String substring) {
+        if (substring.isEmpty()) return 0;
+        int count = 0;
+        for (int i = 0; i <= string.length() - substring.length(); i++) {
+            if (string.substring(i, i + substring.length()).equals(substring)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public String flipCase(String string) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : string.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                sb.append(Character.toLowerCase(c));
+            } else if (Character.isLowerCase(c)) {
+                sb.append(Character.toUpperCase(c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public Map<Integer, List<Integer>> wordsOfLength(String text, int length) {
+        Map<Integer, List<Integer>> result = new HashMap<>();
+        if (length <= 0) return result;
+
+        String[] lines = text.split("\n", -1);
+        List<Integer> lineNumbers = new ArrayList<>();
+
+        for (int i = 0; i < lines.length; i++) {
+            String[] words = lines[i].split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty() && strlen(word) == length) {
+                    lineNumbers.add(i + 1);
+                    break;
+                }
+            }
+        }
+
+        if (!lineNumbers.isEmpty()) {
+            result.put(length, lineNumbers);
+        }
+        return result;
+    }
+
+    public int countWordsOfLength(String text, int length) {
+        if (length <= 0) return 0;
+
+        int count = 0;
+        String[] lines = text.split("\n", -1);
+        for (String line : lines) {
+            String[] words = line.split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty() && strlen(word) == length) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
+```
+
+````
+
+### Response
+
+````
+```java
+package bookscan.claude.edited;
+
+import bookscan.claude.edited.BookScan;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+import java.util.Map;
+
+public class BookScanIntegrationTest {
+
+    private BookScan bookScan;
+
+    @BeforeEach
+    void setUp() {
+        bookScan = new BookScan();
+    }
+
+    // ==================== wordsOfLength: Equivalence Class Partitioning ====================
+
+    @Test
+    void wordsOfLength_emptyText_returnsEmptyMap() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("", 3);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_singleLineWithMatch_returnsLineOne() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("the cat sat", 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_multiLineText_returnsAllMatchingLines() {
+        String text = "hello world\nfoo bar baz\nhi there";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(2, 3), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_negativeLength_returnsEmptyMap() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("hello world", -1);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_zeroLength_returnsEmptyMap() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("hello world", 0);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_lengthOne_matchesSingleCharWords() {
+        String text = "I am a person";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 1);
+        assertEquals(List.of(1), result.get(1));
+    }
+
+    @Test
+    void wordsOfLength_lengthLongerThanAnyWord_returnsEmptyMap() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("short words only", 50);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_noMatchOnAnyLine_returnsEmptyMap() {
+        String text = "hello\nworld\ngreat";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 2);
+        assertTrue(result.isEmpty());
+    }
+
+    // ==================== wordsOfLength: Boundary Value Analysis ====================
+
+    @Test
+    void wordsOfLength_wordExactlyAtLength_matches() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("cat", 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_lengthOneLessThanWord_noMatch() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("cat", 2);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_lengthOneMoreThanWord_noMatch() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("cat", 4);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void wordsOfLength_firstAndLastLineMatch() {
+        String text = "foo\nhello\nbar";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1, 3), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_multipleSpacesBetweenWords() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("the   cat   sat", 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_tabSeparatedWords() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("the\tcat\tsat", 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_leadingAndTrailingWhitespace() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("  cat  ", 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_emptyLinesBetweenText() {
+        String text = "foo\n\nbar";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1, 3), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_lineWithOnlyWhitespace_noMatch() {
+        String text = "foo\n   \nbar";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1, 3), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_singleCharacterOnSingleLine() {
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength("x", 1);
+        assertEquals(List.of(1), result.get(1));
+    }
+
+    // ==================== countWordsOfLength: Equivalence Class Partitioning ====================
+
+    @Test
+    void countWordsOfLength_emptyText_returnsZero() {
+        assertEquals(0, bookScan.countWordsOfLength("", 3));
+    }
+
+    @Test
+    void countWordsOfLength_singleLineMultipleMatches() {
+        assertEquals(3, bookScan.countWordsOfLength("the cat sat", 3));
+    }
+
+    @Test
+    void countWordsOfLength_multiLineCountsAll() {
+        String text = "the cat\nsat on\nthe mat";
+        assertEquals(5, bookScan.countWordsOfLength(text, 3));
+    }
+
+    @Test
+    void countWordsOfLength_negativeLength_returnsZero() {
+        assertEquals(0, bookScan.countWordsOfLength("hello", -5));
+    }
+
+    @Test
+    void countWordsOfLength_zeroLength_returnsZero() {
+        assertEquals(0, bookScan.countWordsOfLength("hello", 0));
+    }
+
+    @Test
+    void countWordsOfLength_noMatches_returnsZero() {
+        assertEquals(0, bookScan.countWordsOfLength("hi go me", 5));
+    }
+
+    @Test
+    void countWordsOfLength_lengthOne_countsSingleCharWords() {
+        assertEquals(2, bookScan.countWordsOfLength("I am a boy", 1));
+    }
+
+    // ==================== countWordsOfLength: Boundary Value Analysis ====================
+
+    @Test
+    void countWordsOfLength_multipleSpacesNotCountedAsWords() {
+        assertEquals(2, bookScan.countWordsOfLength("cat   dog", 3));
+    }
+
+    @Test
+    void countWordsOfLength_tabsAndSpacesMixed() {
+        assertEquals(3, bookScan.countWordsOfLength("cat\t dog\t\t bat", 3));
+    }
+
+    @Test
+    void countWordsOfLength_leadingTrailingSpacesIgnored() {
+        assertEquals(1, bookScan.countWordsOfLength("  cat  ", 3));
+    }
+
+    @Test
+    void countWordsOfLength_emptyLinesContributeNothing() {
+        String text = "cat\n\n\ndog";
+        assertEquals(2, bookScan.countWordsOfLength(text, 3));
+    }
+
+    @Test
+    void countWordsOfLength_longestWordInText() {
+        String text = "extraordinary simple";
+        assertEquals(1, bookScan.countWordsOfLength(text, 13));
+    }
+
+    // ==================== howManyTimes: Equivalence Class Partitioning ====================
+
+    @Test
+    void howManyTimes_emptySubstring_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("hello", ""));
+    }
+
+    @Test
+    void howManyTimes_emptyString_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("", "a"));
+    }
+
+    @Test
+    void howManyTimes_bothEmpty_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("", ""));
+    }
+
+    @Test
+    void howManyTimes_noOccurrence_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("hello world", "xyz"));
+    }
+
+    @Test
+    void howManyTimes_singleOccurrence() {
+        assertEquals(1, bookScan.howManyTimes("hello world", "world"));
+    }
+
+    @Test
+    void howManyTimes_multipleNonOverlapping() {
+        assertEquals(2, bookScan.howManyTimes("abcabc", "abc"));
+    }
+
+    @Test
+    void howManyTimes_overlappingOccurrences() {
+        assertEquals(3, bookScan.howManyTimes("aaaa", "aa"));
+    }
+
+    @Test
+    void howManyTimes_substringLongerThanString_returnsZero() {
+        assertEquals(0, bookScan.howManyTimes("hi", "hello"));
+    }
+
+    @Test
+    void howManyTimes_substringEqualsString() {
+        assertEquals(1, bookScan.howManyTimes("exact", "exact"));
+    }
+
+    @Test
+    void howManyTimes_singleCharSubstring() {
+        assertEquals(3, bookScan.howManyTimes("banana", "a"));
+    }
+
+    // ==================== flipCase: Equivalence Class Partitioning ====================
+
+    @Test
+    void flipCase_emptyString_returnsEmpty() {
+        assertEquals("", bookScan.flipCase(""));
+    }
+
+    @Test
+    void flipCase_allLowerCase_returnsAllUpper() {
+        assertEquals("HELLO", bookScan.flipCase("hello"));
+    }
+
+    @Test
+    void flipCase_allUpperCase_returnsAllLower() {
+        assertEquals("hello", bookScan.flipCase("HELLO"));
+    }
+
+    @Test
+    void flipCase_mixedCase_flipsEachCharacter() {
+        assertEquals("hELLO wORLD", bookScan.flipCase("Hello World"));
+    }
+
+    @Test
+    void flipCase_numbersAndSpecialChars_unchanged() {
+        assertEquals("123!@#", bookScan.flipCase("123!@#"));
+    }
+
+    @Test
+    void flipCase_mixedWithDigitsAndPunctuation() {
+        assertEquals("hELLO 123 wORLD!", bookScan.flipCase("Hello 123 World!"));
+    }
+
+    // ==================== strlen: Equivalence Class Partitioning ====================
+
+    @Test
+    void strlen_emptyString_returnsZero() {
+        assertEquals(0, bookScan.strlen(""));
+    }
+
+    @Test
+    void strlen_singleChar_returnsOne() {
+        assertEquals(1, bookScan.strlen("x"));
+    }
+
+    @Test
+    void strlen_typicalString_returnsCorrectLength() {
+        assertEquals(5, bookScan.strlen("hello"));
+    }
+
+    @Test
+    void strlen_stringWithSpaces_countsSpaces() {
+        assertEquals(11, bookScan.strlen("hello world"));
+    }
+
+    // ==================== Integration: Combining Methods ====================
+
+    @Test
+    void integration_scanMultiLineBookText_findWordsAndCountOccurrences() {
+        String bookText = "The quick brown fox\njumps over the lazy dog\nThe fox runs fast";
+        int targetLength = 3;
+
+        Map<Integer, List<Integer>> lineMap = bookScan.wordsOfLength(bookText, targetLength);
+        int totalCount = bookScan.countWordsOfLength(bookText, targetLength);
+
+        assertEquals(List.of(1, 2, 3), lineMap.get(3));
+        assertEquals(5, totalCount);
+
+        int foxOccurrences = bookScan.howManyTimes(bookText, "fox");
+        assertEquals(2, foxOccurrences);
+    }
+
+    @Test
+    void integration_flipCaseAndCountWordsOfFlippedLength() {
+        String original = "Hello World";
+        String flipped = bookScan.flipCase(original);
+        assertEquals("hELLO wORLD", flipped);
+
+        int len = bookScan.strlen("Hello");
+        assertEquals(5, len);
+
+        int count = bookScan.countWordsOfLength(flipped, len);
+        assertEquals(2, count);
+    }
+
+    @Test
+    void integration_strlenDeterminesSearchLength_wordsOfLengthFindsLines() {
+        String bookText = "Once upon a time\nin a land far away\nthe brave knight rode";
+        String searchWord = "brave";
+        int length = bookScan.strlen(searchWord);
+
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(bookText, length);
+        assertEquals(List.of(3), result.get(5));
+
+        int repetitions = bookScan.howManyTimes(bookText, "a ");
+        assertEquals(4, repetitions);
+    }
+
+    @Test
+    void integration_flipCaseThenScanForOccurrences() {
+        String bookText = "The Cat SAT on THE mat";
+        String flipped = bookScan.flipCase(bookText);
+        assertEquals("tHE cAT sat ON the MAT", flipped);
+
+        int satCount = bookScan.howManyTimes(flipped, "sat");
+        assertEquals(1, satCount);
+
+        int theCountOriginal = bookScan.howManyTimes(bookText, "The");
+        assertEquals(1, theCountOriginal);
+
+        int theCountFlipped = bookScan.howManyTimes(flipped, "the");
+        assertEquals(1, theCountFlipped);
+    }
+
+    @Test
+    void integration_multiLineBookScan_allMethodsCollaborate() {
+        String bookText = "It was a dark and stormy night\n"
+                + "The wind howled through the trees\n"
+                + "A lone figure walked the empty road";
+
+        String flipped = bookScan.flipCase(bookText);
+        assertTrue(flipped.contains("iT WAS A DARK AND STORMY NIGHT"));
+
+        int lengthOfStormy = bookScan.strlen("stormy");
+        assertEquals(6, lengthOfStormy);
+
+        Map<Integer, List<Integer>> sixLetterLines = bookScan.wordsOfLength(bookText, lengthOfStormy);
+        assertEquals(List.of(1, 3), sixLetterLines.get(6));
+
+        int countSixLetter = bookScan.countWordsOfLength(bookText, lengthOfStormy);
+        assertEquals(3, countSixLetter);
+
+        int theCount = bookScan.howManyTimes(bookText, "the");
+        assertEquals(3, theCount);
+    }
+
+    @Test
+    void integration_howManyTimesOnExtractedLine() {
+        String bookText = "she sells sea shells\nby the sea shore\nshe is shy";
+        int targetLen = bookScan.strlen("she");
+
+        Map<Integer, List<Integer>> lines = bookScan.wordsOfLength(bookText, targetLen);
+        assertEquals(List.of(1, 2, 3), lines.get(3));
+
+        int sheCount = bookScan.howManyTimes(bookText, "she");
+        assertEquals(3, sheCount);
+
+        int seaCount = bookScan.howManyTimes(bookText, "sea");
+        assertEquals(2, seaCount);
+    }
+
+    @Test
+    void integration_wordsOfLengthReportsLineOnceEvenIfMultipleMatchesOnSameLine() {
+        String text = "cat bat hat rat\ndog fog log";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1, 2), result.get(3));
+
+        assertEquals(7, bookScan.countWordsOfLength(text, 3));
+    }
+
+    @Test
+    void integration_flipCasePreservesWordLengthsForScan() {
+        String text = "Hello World";
+        String flipped = bookScan.flipCase(text);
+
+        assertEquals(
+                bookScan.countWordsOfLength(text, 5),
+                bookScan.countWordsOfLength(flipped, 5)
+        );
+
+        assertEquals(
+                bookScan.wordsOfLength(text, 5).get(5),
+                bookScan.wordsOfLength(flipped, 5).get(5)
+        );
+    }
+
+    // ==================== Branch Coverage: Edge Paths ====================
+
+    @Test
+    void wordsOfLength_allLinesMatch_returnsAllLineNumbers() {
+        String text = "cat\ndog\nbat";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1, 2, 3), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_onlyMiddleLineMatches() {
+        String text = "hello\ncat\nworld";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(2), result.get(3));
+    }
+
+    @Test
+    void wordsOfLength_lineWithMixedLengthWords_matchesOnFirstEligible() {
+        String text = "a bb ccc dddd";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void countWordsOfLength_multipleMatchesPerLine_countsAll() {
+        String text = "one two six ten";
+        assertEquals(4, bookScan.countWordsOfLength(text, 3));
+    }
+
+    @Test
+    void wordsOfLength_trailingNewline_emptyLastLineNoMatch() {
+        String text = "cat\n";
+        Map<Integer, List<Integer>> result = bookScan.wordsOfLength(text, 3);
+        assertEquals(List.of(1), result.get(3));
+    }
+
+    @Test
+    void countWordsOfLength_trailingNewline_emptyLastLineContributesZero() {
+        String text = "cat dog\n";
+        assertEquals(2, bookScan.countWordsOfLength(text, 3));
+    }
+
+    @Test
+    void howManyTimes_substringAtStartMiddleEnd() {
+        assertEquals(3, bookScan.howManyTimes("abcabcabc", "abc"));
+    }
+
+    @Test
+    void howManyTimes_caseSensitive() {
+        assertEquals(0, bookScan.howManyTimes("Hello", "hello"));
+        assertEquals(1, bookScan.howManyTimes("Hello", "Hello"));
+    }
+
+    @Test
+    void flipCase_singleUpperChar() {
+        assertEquals("a", bookScan.flipCase("A"));
+    }
+
+    @Test
+    void flipCase_singleLowerChar() {
+        assertEquals("A", bookScan.flipCase("a"));
+    }
+}
+```
+````
+
+### Usage Note (Phase2 BookScan integration tests, target=claude/edited)
+
+Extracted from iteration 1. The fenced JUnit 6 code was used with only the @Authors header prepended; no test logic changed. Written to `src/test/java/bookscan/claude/edited/BookScanIntegrationTest.java`.
