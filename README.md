@@ -199,3 +199,24 @@ JNose-Test 0.8.6, all 21 detectors.
 Full analysis + tables: `analysis/phase2_bookscan_analysis.md`. Because the 6
 agent oracle errors are intentionally not hand-fixed, plain `mvn clean test`
 fails on them by design (they are evidence, not defects in the code).
+
+## Changes from the Phase 1 report
+
+The final report combines the Phase 1 submission with Phase 2 additions, per
+the spec ("Prepare a final report by combining the first report with your
+second report"). What was added or modified relative to the Phase 1 PDF
+submitted to Ninova:
+
+| | Phase 1 report | Final report |
+|---|---|---|
+| Abstract | Phase 1 only (30 tasks, base→improved tests, JaCoCo/JNose, three bugs) | Rewritten to cover both phases; adds BookScan, two prompt approaches, 100% Phase-2 coverage, agent oracle accuracy (0% GPT, 4.3–5.9% Claude), and the "test prompt is the dominant lever" finding |
+| References | 5 papers | Same 5 papers (no Phase-2-only citations added) |
+| Methodology | LLM Selection / Prompt Selection / Code Generation Process / Test Generation and Improvement Process | Unchanged |
+| Experimental Results — Phase 1 subsections | Code Generation Results / Base Test Results / Branch Coverage Analysis / Test Smell Analysis / Black-Box EC / Refactoring | Unchanged |
+| Experimental Results — **new Phase 2 subsections** | — | **BookScan Class Generation** (+ Table: Public API of the 4 variants), **Integration Tests with the Models**, **Integration Coverage Results** (+ Table: 4-variant coverage/test outcomes), **Integration Test Smells (JNose)** (+ Table: per-suite smell counts) |
+| Discussion | Comparison of LLMs / Limitations | Comparison expanded to mention Phase 2; Limitations updated to note BookScan is a 5-method utility class (not industrial scale) and that the agent-as-test-author framework treats the agent's own assertions as ground truth |
+| Conclusion | Phase 1 findings + future-validation note | Two new paragraphs: Phase 2 BookScan results (100% coverage, prompt-comparison finding, Claude vs GPT oracle accuracy) and two guidelines for integration testing (specify the integration contract in the prompt; develop test prompts in black-box terms) |
+
+In short: Phase 1 content is preserved as-is; Phase 2 adds four
+experimental-results subsections (with three tables), a BookScan-aware
+abstract, and two new conclusion paragraphs.
